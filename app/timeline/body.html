@@ -1,0 +1,1460 @@
+<style>
+/* ============================================================
+   THE CENTENNIAL HALFTIME SHOW — playbook field timeline
+   Content-driven flow layout. Yard markers maintain visual
+   rhythm but do NOT dictate scroll distance.
+   ============================================================ */
+
+:root{
+  --field-maxw: 1180px;
+  --field-pad-x: clamp(20px, 4vw, 64px);
+  --paper-deep: #ECDFC0;
+  --paper-mid:  #F1E6CA;
+  --paper-warm: #F7EDD3;
+  --ink-line:   rgba(154, 12, 39, 0.55);
+  --ink-line-strong: rgba(154, 12, 39, 0.85);
+  --hash:       rgba(120, 92, 40, 0.5);
+  --num-gold:   #A6802B;
+  --num-gold-soft: #C49A3F;
+}
+
+/* ===== Sticky show-nav strip ===== */
+.show-nav{
+  position: fixed;
+  top: -120px;
+  left: 0; right: 0;
+  z-index: 90;
+  background: rgba(244,235,216,0.96);
+  border-top: 1px solid rgba(184,168,135,.55);
+  border-bottom: 1px solid rgba(184,168,135,.55);
+  backdrop-filter: saturate(1.1) blur(4px);
+  -webkit-backdrop-filter: saturate(1.1) blur(4px);
+  opacity: 0;
+  transition: top .35s cubic-bezier(.2,.7,.2,1), opacity .35s ease;
+  pointer-events: none;
+}
+.show-nav.is-on{ top: 56px; opacity: 1; pointer-events: auto }
+
+.show-nav__inner{
+  max-width: var(--field-maxw);
+  margin: 0 auto;
+  padding: 10px var(--field-pad-x);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+.show-nav__pos{ display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+.show-nav__roman{
+  font-family: var(--serif); font-weight: 800; font-size: 14px;
+  color: var(--red-deep); letter-spacing: .02em; white-space: nowrap;
+}
+.show-nav__sep{
+  width: 4px; height: 4px; background: var(--num-gold);
+  border-radius: 50%; align-self: center; flex-shrink: 0;
+}
+.show-nav__mvname{
+  font-family: var(--display); letter-spacing: .26em; font-size: 11px;
+  color: var(--navy-ink); font-weight: 600; white-space: nowrap;
+}
+.show-nav__year{
+  font-family: var(--display); font-weight: 700; font-size: 13px;
+  color: var(--navy-ink); letter-spacing: .08em;
+}
+.show-nav__title{
+  font-family: var(--serif); font-style: italic; font-weight: 600;
+  font-size: 14px; color: var(--ink-2); white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+
+.minimap{ display: flex; align-items: center; gap: 14px; }
+.minimap__band{
+  position: relative; width: clamp(220px, 30vw, 360px); height: 14px;
+  background: var(--paper-deep); border: 1px solid var(--rule);
+  display: flex; cursor: pointer;
+}
+.minimap__seg{ flex: var(--w, 1); height: 100%; position: relative; transition: filter .2s ease; }
+.minimap__seg:hover{ filter: brightness(1.15) }
+.minimap__seg--1{ background: linear-gradient(180deg, #CE0E2D, #9E0721) }
+.minimap__seg--2{ background: linear-gradient(180deg, #5A6A8A, #3A4A6A) }
+.minimap__seg--3{ background: linear-gradient(180deg, #003594, #001E54) }
+.minimap__seg--4{ background: linear-gradient(180deg, #C49A3F, #9C7626) }
+.minimap__seg--5{ background: linear-gradient(180deg, #CE0E2D, #7A0518) }
+.minimap__seg + .minimap__seg{ border-left: 1px solid rgba(244,235,216,.7) }
+.minimap__marker{
+  position: absolute; top: -4px; height: 22px; width: 2px;
+  background: var(--ink); pointer-events: none; transition: left .2s ease;
+}
+.minimap__marker::before{
+  content:""; position:absolute; top: -5px; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--ink);
+}
+.minimap__labels{
+  font-family: var(--display); letter-spacing: .14em; font-size: 10px;
+  color: var(--ink-mute); text-transform: uppercase;
+}
+@media (max-width: 760px){
+  .show-nav__title{ display:none }
+  .minimap__labels{ display:none }
+  .show-nav__inner{ padding: 8px 14px; gap: 10px }
+}
+
+/* ===== Show head ===== */
+.show-head{
+  background: var(--cream);
+  padding: clamp(120px, 16vh, 180px) var(--field-pad-x) clamp(36px, 5vw, 56px);
+  text-align: center; position: relative;
+}
+.show-head__crest{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  margin-bottom: 14px; color: var(--num-gold);
+}
+.show-head__crest span:first-child,
+.show-head__crest span:last-child{
+  height:1px; width: clamp(40px, 8vw, 110px); background: currentColor;
+}
+.show-head__crest em{
+  font-style: normal; font-family: var(--display);
+  letter-spacing: .32em; font-size: 11px; color: var(--num-gold);
+}
+.show-head__eyebrow{
+  font-family: var(--display); letter-spacing: .42em; font-size: 12px;
+  color: var(--red-deep); margin-bottom: 22px;
+}
+.show-head__title{
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(44px, 6.4vw, 88px); line-height: 1.0;
+  color: var(--navy-ink); margin: 0 0 22px;
+  letter-spacing: -.012em; text-wrap: balance;
+}
+.show-head__title em{ font-style: italic; color: var(--red-deep); }
+.show-head__lede{
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(17px, 1.6vw, 22px); color: var(--ink-2);
+  max-width: 620px; margin: 0 auto 26px;
+  text-wrap: pretty; line-height: 1.45;
+}
+.show-head__legend{
+  display:inline-flex; align-items: center; gap: 18px;
+  font-family: var(--type); font-size: 11.5px; letter-spacing: .14em;
+  color: var(--ink-mute); padding: 12px 22px;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+}
+.show-head__legend span{ display: inline-flex; align-items: center; gap: 8px }
+.show-head__legend i{ width: 12px; height: 12px; display:inline-block; background: var(--red); }
+.show-head__legend i.is-navy{ background: var(--navy) }
+.show-head__legend i.is-gold{ background: var(--num-gold-soft) }
+
+/* ===== Field shell ===== */
+.show-field{
+  position: relative; max-width: var(--field-maxw);
+  margin: 0 auto;
+  padding: 0 var(--field-pad-x) clamp(40px, 5vw, 80px);
+}
+.show-field::before,
+.show-field::after{
+  content:""; position:absolute; top: 0; bottom: 60px; width: 8px;
+  background:
+    linear-gradient(90deg,
+      transparent 0, transparent 2px,
+      var(--red-deep) 2px, var(--red-deep) 3px,
+      transparent 3px, transparent 5px,
+      var(--red-deep) 5px, var(--red-deep) 6px,
+      transparent 6px);
+  opacity: .85;
+}
+.show-field::before{ left: calc(var(--field-pad-x) - 22px) }
+.show-field::after{  right: calc(var(--field-pad-x) - 22px) }
+@media (max-width: 760px){ .show-field::before, .show-field::after{ display: none } }
+
+/* ===== END ZONES ===== */
+.ez{
+  position: relative; isolation: isolate;
+  padding: clamp(40px, 6vw, 80px) clamp(24px, 4vw, 56px);
+  text-align: center; color: #fff; overflow: hidden;
+  border: 1px solid rgba(0,0,0,.2);
+}
+.ez__chevrons{
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(135deg,
+    rgba(255,255,255,0.08) 0 6px, transparent 6px 22px);
+  z-index: 0; pointer-events: none;
+}
+.ez__edge-top, .ez__edge-bot{
+  position: absolute; left: 14px; right: 14px;
+  height: 2px; background: rgba(255,255,255,.65);
+}
+.ez__edge-top{ top: 14px }
+.ez__edge-bot{ bottom: 14px }
+.ez > *{ position: relative; z-index: 1 }
+
+.ez--top{
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.12), transparent 70%),
+    linear-gradient(180deg, var(--red) 0%, var(--red-deep) 100%);
+  border-color: var(--red-dark);
+}
+.ez--top .ez__stamp{
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(54px, 8vw, 108px); line-height: 1;
+  letter-spacing: .18em; color: #FAF1D6;
+  text-shadow: 1px 1px 0 rgba(0,0,0,.18), 0 4px 14px rgba(0,0,0,.22);
+  margin: 18px 0 14px;
+  -webkit-text-stroke: 1px rgba(255,255,255,.08);
+}
+.ez__overline, .ez__underline{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  font-family: var(--display); letter-spacing: .42em;
+  font-size: 11px; color: rgba(250,241,214,.85);
+}
+.ez__overline span:first-child, .ez__overline span:last-child,
+.ez__underline span:first-child, .ez__underline span:last-child{
+  height:1px; width: clamp(30px, 6vw, 90px);
+  background: rgba(250,241,214,.55);
+}
+.ez__wordmark{
+  font-family: var(--script); font-weight: 400;
+  font-size: clamp(34px, 5vw, 60px); line-height: 1;
+  color: #FFF6D8; text-shadow: 0 2px 10px rgba(0,0,0,.25);
+  margin: 6px 0 18px;
+}
+.ez__yardstamp{
+  display:inline-flex; align-items:center; justify-content:center; gap: 14px;
+  padding: 8px 18px; border: 1px solid rgba(255,255,255,.45);
+  font-family: var(--display); font-weight: 700;
+  letter-spacing: .22em; font-size: 14px; color: #fff; margin-top: 12px;
+}
+.ez__yardstamp .dot{ width: 5px; height:5px; background:#fff; border-radius:50%; }
+
+.ez--bottom{
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(255,255,255,.10), transparent 70%),
+    linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+  border-color: var(--navy-deep);
+  padding-top: clamp(52px, 7vw, 96px);
+  padding-bottom: clamp(60px, 8vw, 110px);
+}
+.ez--bottom .ez__stamp{
+  font-family: var(--serif); font-weight: 900; font-style: italic;
+  font-size: clamp(34px, 4.5vw, 56px); line-height: 1.05;
+  letter-spacing: .04em; color: #FAF1D6;
+  margin: 16px 0 8px; text-wrap: balance;
+}
+.ez--bottom .ez__stamp small{
+  display:block; font-family: var(--display); font-style: normal;
+  font-weight: 600; font-size: clamp(12px, 1.2vw, 15px);
+  letter-spacing: .42em; color: rgba(255,255,255,.7); margin-top: 14px;
+}
+.ez__cta-wrap{
+  display:flex; flex-direction: column; align-items:center;
+  gap: 12px; margin-top: 28px;
+}
+.ez__cta{
+  display:inline-flex; align-items:center; gap: 14px;
+  font-family: var(--display); text-transform: uppercase;
+  letter-spacing: .22em; font-size: 14px; font-weight: 700;
+  padding: 18px 30px; background: var(--red); color: #fff;
+  text-decoration: none; border: 2px solid #fff;
+  box-shadow: inset 0 0 0 4px var(--red), 0 14px 26px -14px rgba(0,0,0,.55);
+  transition: transform .15s ease, background .2s ease;
+}
+.ez__cta:hover{ background: var(--red-deep); transform: translateY(-2px) }
+.ez__cta-tag{
+  font-family: var(--serif); font-style: italic;
+  color: rgba(255,255,255,.7); font-size: 15px;
+}
+.ez--bottom .ez__overline, .ez--bottom .ez__underline{ color: var(--num-gold-soft) }
+.ez--bottom .ez__overline span:first-child,
+.ez--bottom .ez__overline span:last-child{ background: var(--num-gold-soft) }
+
+/* ===== FIELD BODY — content-driven flow ===== */
+.field-body{
+  position: relative;
+  background: var(--paper-warm);
+  background-image:
+    radial-gradient(900px 600px at 12% 8%,  rgba(154,12,39,0.04), transparent 60%),
+    radial-gradient(900px 600px at 88% 92%, rgba(0,53,148,0.04), transparent 60%),
+    radial-gradient(600px 400px at 50% 50%, rgba(120,92,40,0.02), transparent 65%);
+  border-left: 1px solid rgba(154,12,39,.35);
+  border-right: 1px solid rgba(154,12,39,.35);
+  isolation: isolate;
+  padding: clamp(20px, 4vw, 40px) 0 clamp(20px, 4vw, 40px);
+  /* flow layout — items just stack */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Paper grain */
+.field-body::after{
+  content:""; position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");
+  background-size: 220px 220px;
+  opacity: .14; mix-blend-mode: multiply;
+  pointer-events: none; z-index: 1;
+}
+
+/* YARD LINES — fixed cadence, decorative, NOT linked to years.
+   Thin red line every ~38px, bolder every ~190px (5 lines = one "decade") */
+.field-body__lines{
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 0;
+  background:
+    /* thin every 38px */
+    repeating-linear-gradient(180deg,
+      transparent 0,
+      transparent 37px,
+      var(--ink-line) 37px,
+      var(--ink-line) 38px);
+  opacity: .65;
+}
+.field-body__decades{
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 0;
+  background:
+    repeating-linear-gradient(180deg,
+      transparent 0,
+      transparent 188px,
+      var(--ink-line-strong) 188px,
+      var(--ink-line-strong) 190px);
+  mix-blend-mode: multiply;
+}
+.field-body__hashes{
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 0;
+  background-image:
+    repeating-linear-gradient(180deg,
+      transparent 0,
+      transparent 37px,
+      var(--hash) 37px,
+      var(--hash) 38px),
+    repeating-linear-gradient(180deg,
+      transparent 0,
+      transparent 37px,
+      var(--hash) 37px,
+      var(--hash) 38px);
+  background-position: 30% 0, 70% 0;
+  background-size: 14px 100%, 14px 100%;
+  background-repeat: no-repeat;
+  opacity: .55;
+}
+
+/* ===== YARD MARKER ROW — decade callout
+   Appears between sections to maintain the "marching down the field"
+   rhythm. Gold slab numerals on both sidelines, span the field width. */
+.ym{
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.5vw, 32px);
+  margin: clamp(36px, 5vh, 60px) clamp(24px, 4vw, 48px) clamp(36px, 5vh, 60px);
+  padding: 14px 0;
+  border-top: 2px solid rgba(154,12,39,.55);
+  border-bottom: 2px solid rgba(154,12,39,.55);
+}
+.ym::after, .ym::before{ content: none }
+.ym__num{
+  font-family: "Oswald", Impact, sans-serif;
+  font-weight: 700;
+  font-size: clamp(38px, 4.8vw, 60px);
+  letter-spacing: .04em;
+  color: var(--num-gold);
+  line-height: 1;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.ym__num small{
+  font-family: var(--type);
+  font-size: 11px;
+  letter-spacing: .14em;
+  color: rgba(154,12,39, .6);
+  font-weight: 400;
+}
+.ym__center{
+  flex: 1;
+  text-align: center;
+  font-family: var(--display);
+  letter-spacing: .36em;
+  font-size: 11px;
+  color: var(--red-deep);
+  text-transform: uppercase;
+}
+.ym__center b{
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(15px, 1.4vw, 19px);
+  color: var(--navy-ink);
+  letter-spacing: 0;
+  margin-top: 6px;
+  text-transform: none;
+}
+.ym--mid{ border-color: rgba(154,12,39,.85) }
+.ym--mid .ym__num{ color: var(--red-deep); font-size: clamp(48px, 6vw, 78px) }
+.ym--mid .ym__center b{ color: var(--red-deep) }
+@media (max-width: 760px){
+  .ym{ margin-left: 12px; margin-right: 12px; gap: 14px }
+  .ym__num{ font-size: 28px }
+}
+
+/* ===== MOVEMENT BANNERS ===== */
+.mvbanner{
+  position: relative;
+  z-index: 5;
+  margin: clamp(40px, 6vh, 80px) 4% clamp(20px, 3vh, 40px);
+  padding: 18px 28px;
+  background:
+    linear-gradient(180deg, var(--paper-warm) 0%, var(--paper-mid) 100%);
+  border-top: 2px solid var(--ink-line-strong);
+  border-bottom: 2px solid var(--ink-line-strong);
+  text-align: center;
+  box-shadow:
+    0 1px 0 rgba(0,0,0,.04),
+    0 18px 32px -22px rgba(58,44,32,.4);
+}
+.mvbanner::before, .mvbanner::after{
+  content:""; position:absolute; left: 0; right: 0; height: 1px;
+  background: var(--ink-line-strong);
+}
+.mvbanner::before{ top: 6px }
+.mvbanner::after{ bottom: 6px }
+.mvbanner__roman{
+  font-family: var(--serif); font-weight: 900; font-style: normal;
+  font-size: clamp(14px, 1.3vw, 17px); letter-spacing: .12em;
+  color: var(--red-deep);
+}
+.mvbanner__title{
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(22px, 2.2vw, 32px); color: var(--navy-ink);
+  line-height: 1.1; margin: 0 0 4px;
+  letter-spacing: -.01em; text-wrap: balance;
+}
+.mvbanner__title em{ font-style: italic; color: var(--red-deep); }
+.mvbanner__tempo{
+  font-family: var(--serif); font-style: italic; font-weight: 600;
+  font-size: clamp(13px, 1.1vw, 15px); color: var(--red);
+  letter-spacing: .04em; margin-right: 10px;
+}
+.mvbanner__descr{
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(14px, 1.15vw, 16px); color: var(--ink-2);
+  margin: 4px 0 0;
+}
+.mvbanner__rule{
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 6px;
+}
+.mvbanner__rule span{
+  height: 1px; flex: 0 0 auto; width: 40px; background: var(--ink-line-strong);
+}
+.mvbanner__rule em{
+  font-style: normal; font-family: var(--type);
+  font-size: 10px; letter-spacing: .3em; color: var(--red-deep);
+}
+.mvbanner__staff{
+  position: absolute; inset: 18px 28px; z-index: 0;
+  pointer-events: none; opacity: .12; color: var(--navy-ink);
+}
+.mvbanner__staff svg{ width: 100%; height: 100%; display:block }
+.mvbanner > .mvbanner__inner{ position: relative; z-index: 1 }
+
+/* ===== MILESTONES — flow ===== */
+.mile{
+  position: relative;
+  z-index: 6;
+  display: grid;
+  align-items: center;
+  gap: clamp(20px, 3vw, 36px);
+  width: calc(100% - 80px);
+  margin: 0 40px;
+  padding: clamp(36px, 6vh, 64px) 0;
+}
+.mile--right{ grid-template-columns: minmax(280px, 360px) 1fr; }
+.mile--left{
+  grid-template-columns: 1fr minmax(280px, 360px);
+  justify-items: end;
+  text-align: right;
+}
+.mile--left .mile__desc{ text-align: right }
+.mile--right .mile__ribbon{ justify-self: start }
+.mile--left  .mile__ribbon{ justify-self: end; order: 2 }
+.mile--left  .mile__desc  { order: 1 }
+
+/* Cardinal hairline that visually anchors the ribbon to a yard line */
+.mile::before{
+  content:"";
+  position: absolute;
+  left: -40px; right: -40px;
+  top: 50%;
+  height: 0;
+  border-top: 1px dashed rgba(154,12,39,.5);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Ribbon */
+.mile__ribbon{
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 11px 38px;
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,.08) 0%,
+      rgba(0,0,0,.02) 70%,
+      rgba(0,0,0,.22) 100%),
+    var(--red);
+  color: #fff;
+  clip-path: polygon(
+    0 0, 100% 0,
+    calc(100% - 14px) 50%,
+    100% 100%, 0 100%,
+    14px 50%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,245,215,.18),
+    inset 0 -1px 0 rgba(0,0,0,.18),
+    0 12px 22px -12px rgba(58,44,32,.5);
+  min-width: 220px;
+  filter: drop-shadow(0 1px 0 rgba(154,12,39,.4));
+}
+.mile__ribbon--navy{
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,.08) 0%,
+      rgba(0,0,0,.02) 70%,
+      rgba(0,0,0,.26) 100%),
+    var(--navy);
+}
+.mile__ribbon--gold{
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,.22) 0%,
+      rgba(0,0,0,.04) 70%,
+      rgba(0,0,0,.22) 100%),
+    linear-gradient(180deg, #C49A3F 0%, #9C7626 100%);
+  color: #1B1410;
+}
+.mile__year{
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(22px, 2.2vw, 28px); letter-spacing: .04em; line-height: 1;
+}
+.mile__rib-title{
+  font-family: var(--serif); font-weight: 700; font-style: italic;
+  font-size: clamp(14px, 1.2vw, 17px); line-height: 1.15;
+  position: relative; top: -1px; text-wrap: balance;
+}
+
+/* Description */
+.mile__desc{ max-width: 460px; padding-top: 0 }
+.mile__head{
+  font-family: var(--serif); font-weight: 800;
+  font-size: clamp(18px, 1.6vw, 22px); line-height: 1.22;
+  margin: 0 0 8px; color: var(--navy-ink); text-wrap: pretty;
+}
+.mile__body{
+  margin: 0; font-size: 15px; line-height: 1.55;
+  color: var(--ink-2); text-wrap: pretty;
+}
+.mile__meta{
+  font-family: var(--type); font-size: 11px; letter-spacing: .12em;
+  color: var(--red-deep); margin: 0 0 8px; text-transform: uppercase;
+}
+
+@media (max-width: 780px){
+  .mile{
+    width: calc(100% - 16px);
+    margin: 0 8px;
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
+    text-align: center !important;
+    padding: clamp(28px, 6vh, 50px) 0;
+  }
+  .mile--left .mile__ribbon,
+  .mile--right .mile__ribbon{ justify-self: center; order: 0 }
+  .mile--left .mile__desc{ order: 0; text-align: center }
+  .mile__desc{ max-width: 92% }
+}
+
+/* ===== 1992 — THE SILENT YEAR ===== */
+.silent{
+  position: relative;
+  z-index: 7;
+  text-align: center;
+  width: min(560px, 86%);
+  /* THE intentional empty space — much larger than any other gap */
+  margin: clamp(120px, 18vh, 220px) auto;
+  padding: clamp(40px, 6vh, 70px) 0;
+}
+.silent::before{
+  /* fade-in halo so yard lines soften under the silence */
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 140%; height: 130%;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(60% 60% at 50% 50%,
+      var(--paper-warm) 0%,
+      var(--paper-warm) 35%,
+      rgba(247,237,211,.85) 65%,
+      rgba(247,237,211,0) 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+.silent__stamp{
+  display:inline-block;
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(36px, 5vw, 64px); letter-spacing: .28em;
+  color: rgba(154,12,39, .42);
+  border-top: 2px solid rgba(154,12,39,.35);
+  border-bottom: 2px solid rgba(154,12,39,.35);
+  padding: 8px 26px 4px;
+  transform: rotate(-3deg);
+  -webkit-text-stroke: 1px rgba(154,12,39,.25);
+  text-shadow: 1px 1px 0 rgba(154,12,39,.08);
+  margin-bottom: 18px;
+}
+.silent__rest{
+  font-family: "Noto Music", "Bravura", serif;
+  font-size: clamp(56px, 7vw, 92px);
+  color: var(--navy-ink); opacity: .55; line-height: 1;
+  margin: 8px 0 16px;
+}
+.silent__cap{
+  font-family: var(--serif); font-style: italic; font-weight: 600;
+  font-size: clamp(15px, 1.4vw, 19px); color: var(--ink-2);
+  max-width: 460px; margin: 0 auto;
+  text-wrap: balance; line-height: 1.5;
+}
+.silent__cap b{
+  display: block; font-style: normal;
+  font-family: var(--display); font-weight: 700;
+  letter-spacing: .3em; font-size: 11px;
+  color: var(--red-deep); margin-bottom: 8px;
+}
+
+/* ===== 2017 — TOUCHDOWN ACCENT (now an inline accent above its milestone) ===== */
+.tdline{
+  position: relative;
+  height: 5px;
+  margin: clamp(20px, 3vh, 36px) 0 0;
+  background:
+    linear-gradient(180deg, var(--num-gold-soft) 0%, var(--num-gold) 100%);
+  box-shadow:
+    0 0 0 1px rgba(196,154,63,.4),
+    0 0 18px rgba(196,154,63,.35);
+  z-index: 2;
+  transform-origin: left center;
+}
+.touchdown-stamp{
+  display: inline-block;
+  margin-bottom: 8px;
+  font-family: var(--serif); font-weight: 900; font-style: italic;
+  font-size: clamp(20px, 1.8vw, 26px); letter-spacing: .14em;
+  color: var(--num-gold);
+  padding: 6px 16px;
+  border-top: 2px solid var(--num-gold);
+  border-bottom: 2px solid var(--num-gold);
+  transform: rotate(-2deg);
+  text-shadow: 1px 1px 0 rgba(196,154,63,.15);
+}
+.medallion{
+  width: clamp(120px, 12vw, 160px);
+  aspect-ratio: 1/1; border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #1a3a82 0%, #001E54 70%, #061232 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; position: relative;
+  box-shadow:
+    inset 0 0 0 6px var(--num-gold-soft),
+    inset 0 0 0 7px rgba(0,0,0,.4),
+    inset 0 0 0 12px var(--num-gold),
+    inset 0 0 0 13px rgba(0,0,0,.3),
+    0 18px 32px -16px rgba(0,0,0,.4),
+    0 0 0 1px rgba(0,0,0,.3);
+  margin-top: 14px;
+  color: var(--num-gold-soft);
+}
+.medallion__num{
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(28px, 3vw, 40px); line-height: 1;
+  color: var(--num-gold-soft);
+}
+.medallion__label{
+  font-family: var(--display); letter-spacing: .26em;
+  font-size: 9px; color: var(--num-gold-soft);
+  margin-top: 4px; text-transform: uppercase;
+}
+.medallion__ribbon{
+  font-family: var(--type); font-size: 9px;
+  letter-spacing: .14em; color: var(--num-gold-soft);
+  opacity: .85; margin-top: 4px;
+}
+.medallion__star{
+  position: absolute; font-size: 18px;
+  color: var(--num-gold-soft); top: 14px;
+}
+.mile--touchdown .mile__ribbon{
+  padding: 14px 44px;
+  filter: drop-shadow(0 1px 0 rgba(154,12,39,.4)) drop-shadow(0 0 6px rgba(196,154,63,.4));
+}
+.mile--touchdown .mile__ribbon .mile__year{ font-size: clamp(26px, 2.6vw, 32px) }
+.mile--touchdown .mile__ribbon .mile__rib-title{ font-size: clamp(15px, 1.3vw, 18px) }
+.mile--touchdown .mile__desc{ display: flex; gap: 18px; align-items: flex-start; max-width: 520px }
+.mile--touchdown .mile__desc-text{ flex: 1 }
+@media (max-width: 780px){
+  .mile--touchdown .mile__desc{ flex-direction: column; align-items: center; gap: 12px }
+}
+
+/* ===== DRILL FORMATION INSETS ===== */
+.drill{
+  background: var(--paper-warm);
+  border: 1px solid rgba(154,12,39,.4);
+  padding: 10px 12px 6px;
+  display: inline-block;
+  position: relative;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.5),
+    0 12px 22px -14px rgba(58,44,32,.4);
+  max-width: 200px;
+}
+.drill::before{
+  content:""; position:absolute; top:-6px; left: 12px;
+  width: 40px; height: 12px;
+  background: rgba(196,154,63,.35);
+  transform: rotate(-3deg);
+  border: 1px dashed rgba(120,92,40,.4);
+}
+.drill__svg{
+  display: block; width: 100%; height: auto;
+  background:
+    linear-gradient(90deg, transparent 49.5%, rgba(154,12,39,.25) 50%, transparent 50.5%),
+    repeating-linear-gradient(0deg, transparent 0 9px, rgba(154,12,39,.15) 9px 10px),
+    repeating-linear-gradient(90deg, transparent 0 9px, rgba(154,12,39,.15) 9px 10px);
+  border: 1px solid rgba(154,12,39,.25);
+}
+.drill__cap{
+  font-family: var(--type); font-size: 10px;
+  letter-spacing: .14em; color: var(--ink-mute);
+  text-align: center; margin-top: 6px; text-transform: uppercase;
+}
+.mile--inset .mile__desc{
+  display: flex; gap: 18px; align-items: flex-start;
+  max-width: 560px;
+}
+.mile--inset .mile__desc-text{ flex: 1 }
+.mile--right.mile--inset .drill{ order: 2 }
+.mile--left.mile--inset  .drill{ order: -1 }
+@media (max-width: 780px){
+  .mile--inset .mile__desc{ flex-direction: column; align-items: center }
+  .mile--inset .drill{ order: 0 !important }
+}
+
+/* Reveal animation */
+.mile, .mvbanner, .silent, .tdline, .ym{
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.tdline{ transform: scaleX(0); }
+.mile.is-in, .mvbanner.is-in, .silent.is-in, .ym.is-in{
+  opacity: 1; transform: translateY(0);
+}
+.tdline.is-in{ transform: scaleX(1) }
+@media (prefers-reduced-motion: reduce){
+  .mile, .mvbanner, .silent, .tdline, .ym { opacity: 1; transform: none }
+  .tdline{ transform: scaleX(1) }
+}
+</style>
+
+<!-- ===== Top nav ===== -->
+<!-- TODO v2: extract shared Nav, componentize -->
+<header class="topnav is-scrolled" id="topnav">
+  <a class="topnav__brand" href="/">
+    <span class="topnav__mark">BMB</span>
+    <span class="topnav__sep"></span>
+    <span class="topnav__years">1926&nbsp;–&nbsp;2026</span>
+  </a>
+  <nav class="topnav__links">
+    <a href="/timeline" data-nav="timeline">Timeline</a>
+    <a href="/gallery" data-nav="gallery">Gallery</a>
+    <a href="/reunion" data-nav="reunion">Reunion</a>
+    <a href="/reunion#register" class="topnav__cta">Register</a>
+  </nav>
+</header>
+
+<!-- ===== Sticky show-position strip ===== -->
+<div class="show-nav" id="showNav" aria-hidden="true">
+  <div class="show-nav__inner">
+    <div class="show-nav__pos">
+      <span class="show-nav__roman" id="snRoman">I.</span>
+      <span class="show-nav__sep"></span>
+      <span class="show-nav__mvname" id="snMvname">ALLEGRO CON SPIRITO</span>
+      <span class="show-nav__sep"></span>
+      <span class="show-nav__year" id="snYear">1926</span>
+      <span class="show-nav__sep"></span>
+      <span class="show-nav__title" id="snTitle">The Band is Born</span>
+    </div>
+    <div class="minimap">
+      <span class="minimap__labels">I &middot; II &middot; III &middot; IV &middot; V</span>
+      <div class="minimap__band" id="minimap" title="Jump to a movement">
+        <div class="minimap__seg minimap__seg--1" data-jump-mv="1" style="--w: 8"></div>
+        <div class="minimap__seg minimap__seg--2" data-jump-mv="2" style="--w: 28"></div>
+        <div class="minimap__seg minimap__seg--3" data-jump-mv="3" style="--w: 22"></div>
+        <div class="minimap__seg minimap__seg--4" data-jump-mv="4" style="--w: 14"></div>
+        <div class="minimap__seg minimap__seg--5" data-jump-mv="5" style="--w: 18"></div>
+        <div class="minimap__marker" id="minimapMarker" style="left:0%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Show head ===== -->
+<section class="show-head">
+  <div class="show-head__crest">
+    <span></span><em>CHAPTER ONE · THE SHOW OF THE CENTURY</em><span></span>
+  </div>
+  <div class="show-head__eyebrow">A HUNDRED YEARS &middot; ONE FIELD</div>
+  <h1 class="show-head__title">The Centennial <em>Halftime Show</em></h1>
+  <p class="show-head__lede">One hundred years of the Bulldog Marching Band, scored across one field — kickoff to fine, in five movements.</p>
+  <div class="show-head__legend">
+    <span><i></i>Cardinal milestones</span>
+    <span><i class="is-navy"></i>Navy milestones</span>
+    <span><i class="is-gold"></i>Centennial honors</span>
+  </div>
+</section>
+
+<!-- ===== THE FIELD ===== -->
+<section class="show-field" id="field">
+
+  <!-- ====== TOP END ZONE (1926 · KICKOFF) ====== -->
+  <div class="ez ez--top">
+    <div class="ez__chevrons" aria-hidden="true"></div>
+    <span class="ez__edge-top"></span>
+    <span class="ez__edge-bot"></span>
+    <div class="ez__overline">
+      <span></span><em>EST. 1926 &middot; FRESNO NORMAL SCHOOL</em><span></span>
+    </div>
+    <div class="ez__stamp">KICKOFF</div>
+    <div class="ez__wordmark">Bulldog Marching Band</div>
+    <div class="ez__yardstamp">
+      <span class="dot"></span>
+      <span>1926 &middot; GOAL LINE</span>
+      <span class="dot"></span>
+    </div>
+    <div class="ez__underline" style="margin-top:18px">
+      <span></span><em>BAND TAKES THE FIELD</em><span></span>
+    </div>
+  </div>
+
+  <!-- ====== FIELD BODY ====== -->
+  <div class="field-body" id="fieldBody">
+    <div class="field-body__lines" aria-hidden="true"></div>
+    <div class="field-body__decades" aria-hidden="true"></div>
+    <div class="field-body__hashes" aria-hidden="true"></div>
+
+    <!-- =========================================================
+         MOVEMENT I · ALLEGRO CON SPIRITO · THE OPENING FANFARE
+         ========================================================= -->
+    <div class="mvbanner" data-mvkey="1">
+      <div class="mvbanner__staff" aria-hidden="true">
+        <svg viewBox="0 0 600 40" preserveAspectRatio="none">
+          <g stroke="currentColor" stroke-width="0.6" fill="none">
+            <line x1="0" y1="8"  x2="600" y2="8"/>
+            <line x1="0" y1="16" x2="600" y2="16"/>
+            <line x1="0" y1="24" x2="600" y2="24"/>
+            <line x1="0" y1="32" x2="600" y2="32"/>
+          </g>
+        </svg>
+      </div>
+      <div class="mvbanner__inner">
+        <div class="mvbanner__rule"><span></span><em>OPUS · I</em><span></span></div>
+        <h2 class="mvbanner__title"><span class="mvbanner__tempo">Allegro con spirito —</span>The Opening <em>Fanfare</em></h2>
+        <p class="mvbanner__descr">The band takes the field.</p>
+      </div>
+    </div>
+
+    <!-- 1926 -->
+    <article class="mile mile--right" data-year="1926" data-mv="1" data-title="The Band is Born">
+      <div class="mile__ribbon">
+        <span class="mile__year">1926</span>
+        <span class="mile__rib-title">The Band is Born</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">FRESNO NORMAL SCHOOL · FOUNDING</div>
+        <h3 class="mile__head">Thirty-six pioneers under Arthur C. Forsblad.</h3>
+        <p class="mile__body">The first Fresno Normal School band forms with thirty-six charter members — the kickoff note of a century-long tradition.</p>
+      </div>
+    </article>
+
+    <!-- 1934 -->
+    <article class="mile mile--left" data-year="1934" data-mv="1" data-title="A Fight Song is Born">
+      <div class="mile__ribbon">
+        <span class="mile__year">1934</span>
+        <span class="mile__rib-title">A Fight Song is Born</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">FRESNO STATE COLLEGE</div>
+        <h3 class="mile__head">"Fight, Varsity" rings out for the first time.</h3>
+        <p class="mile__body">The school becomes Fresno State College and adopts the fight song generations of Bulldogs will rise to their feet for.</p>
+      </div>
+    </article>
+
+    <!-- 20-yard line / the forties — bridges to movement II -->
+    <div class="ym">
+      <div class="ym__num">20<small>'40</small></div>
+      <div class="ym__center">
+        Crossing the twenty
+        <b>The march continues through the forties</b>
+      </div>
+      <div class="ym__num">20<small>'40</small></div>
+    </div>
+
+    <!-- =========================================================
+         MOVEMENT II · ADAGIO DOLENTE · A TRADITION FALTERS
+         ========================================================= -->
+    <div class="mvbanner" data-mvkey="2">
+      <div class="mvbanner__staff" aria-hidden="true">
+        <svg viewBox="0 0 600 40" preserveAspectRatio="none">
+          <g stroke="currentColor" stroke-width="0.6" fill="none">
+            <line x1="0" y1="8"  x2="600" y2="8"/>
+            <line x1="0" y1="16" x2="600" y2="16"/>
+            <line x1="0" y1="24" x2="600" y2="24"/>
+            <line x1="0" y1="32" x2="600" y2="32"/>
+          </g>
+        </svg>
+      </div>
+      <div class="mvbanner__inner">
+        <div class="mvbanner__rule"><span></span><em>OPUS · II</em><span></span></div>
+        <h2 class="mvbanner__title"><span class="mvbanner__tempo">Adagio dolente —</span>A Tradition <em>Falters</em></h2>
+        <p class="mvbanner__descr">The march slows toward midfield.</p>
+      </div>
+    </div>
+
+    <!-- 1955 -->
+    <article class="mile mile--right" data-year="1955" data-mv="2" data-title="A new home">
+      <div class="mile__ribbon mile__ribbon--navy">
+        <span class="mile__year">1955</span>
+        <span class="mile__rib-title">A new home</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">SHAW AVENUE CAMPUS</div>
+        <h3 class="mile__head">Fresno State moves to its Shaw Avenue campus.</h3>
+        <p class="mile__body">A new stadium, new practice fields, a new home for the program — and a new chapter for the bulldogs who march on it.</p>
+      </div>
+    </article>
+
+    <!-- 30-yard line / the sixties -->
+    <div class="ym">
+      <div class="ym__num">30<small>'60</small></div>
+      <div class="ym__center">
+        Thirty yards in
+        <b>Sixties drum corps. Polyester uniforms.</b>
+      </div>
+      <div class="ym__num">30<small>'60</small></div>
+    </div>
+
+    <!-- 1972 -->
+    <article class="mile mile--left" data-year="1972" data-mv="2" data-title="California State University, Fresno">
+      <div class="mile__ribbon mile__ribbon--navy">
+        <span class="mile__year">1972</span>
+        <span class="mile__rib-title">CSU, Fresno</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">UNIVERSITY STATUS</div>
+        <h3 class="mile__head">The college becomes a university.</h3>
+        <p class="mile__body">California State University, Fresno is born. The band's stationery changes; the sound, undiminished, marches on.</p>
+      </div>
+    </article>
+
+    <!-- 1980 -->
+    <article class="mile mile--right" data-year="1980" data-mv="2" data-title="The Bulldog Marching Band era begins">
+      <div class="mile__ribbon">
+        <span class="mile__year">1980</span>
+        <span class="mile__rib-title">The BMB Era Begins</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">FRANK BIBB · DIRECTOR</div>
+        <h3 class="mile__head">Frank Bibb takes charge.</h3>
+        <p class="mile__body">For the first time the program calls itself the Bulldog Marching Band. The name will outlast every uniform that follows it.</p>
+      </div>
+    </article>
+
+    <!-- 1982 — DRILL FORMATION INSET -->
+    <article class="mile mile--left mile--inset" data-year="1982" data-mv="2" data-title="Two Hundred Strong">
+      <div class="mile__ribbon">
+        <span class="mile__year">1982</span>
+        <span class="mile__rib-title">Two Hundred Strong</span>
+      </div>
+      <div class="mile__desc">
+        <div class="drill" aria-label="Drill formation: 200 marchers in a 20×10 block">
+          <svg class="drill__svg" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#9E0721">
+              <circle cx="10"  cy="10" r="2.4"/><circle cx="20"  cy="10" r="2.4"/><circle cx="30"  cy="10" r="2.4"/><circle cx="40"  cy="10" r="2.4"/><circle cx="50"  cy="10" r="2.4"/><circle cx="60"  cy="10" r="2.4"/><circle cx="70"  cy="10" r="2.4"/><circle cx="80"  cy="10" r="2.4"/><circle cx="90"  cy="10" r="2.4"/><circle cx="100" cy="10" r="2.4"/><circle cx="110" cy="10" r="2.4"/><circle cx="120" cy="10" r="2.4"/><circle cx="130" cy="10" r="2.4"/><circle cx="140" cy="10" r="2.4"/><circle cx="150" cy="10" r="2.4"/><circle cx="160" cy="10" r="2.4"/><circle cx="170" cy="10" r="2.4"/><circle cx="180" cy="10" r="2.4"/><circle cx="190" cy="10" r="2.4"/><circle cx="200" cy="10" r="2.4"/>
+              <circle cx="10"  cy="20" r="2.4"/><circle cx="20"  cy="20" r="2.4"/><circle cx="30"  cy="20" r="2.4"/><circle cx="40"  cy="20" r="2.4"/><circle cx="50"  cy="20" r="2.4"/><circle cx="60"  cy="20" r="2.4"/><circle cx="70"  cy="20" r="2.4"/><circle cx="80"  cy="20" r="2.4"/><circle cx="90"  cy="20" r="2.4"/><circle cx="100" cy="20" r="2.4"/><circle cx="110" cy="20" r="2.4"/><circle cx="120" cy="20" r="2.4"/><circle cx="130" cy="20" r="2.4"/><circle cx="140" cy="20" r="2.4"/><circle cx="150" cy="20" r="2.4"/><circle cx="160" cy="20" r="2.4"/><circle cx="170" cy="20" r="2.4"/><circle cx="180" cy="20" r="2.4"/><circle cx="190" cy="20" r="2.4"/><circle cx="200" cy="20" r="2.4"/>
+              <circle cx="10"  cy="30" r="2.4"/><circle cx="20"  cy="30" r="2.4"/><circle cx="30"  cy="30" r="2.4"/><circle cx="40"  cy="30" r="2.4"/><circle cx="50"  cy="30" r="2.4"/><circle cx="60"  cy="30" r="2.4"/><circle cx="70"  cy="30" r="2.4"/><circle cx="80"  cy="30" r="2.4"/><circle cx="90"  cy="30" r="2.4"/><circle cx="100" cy="30" r="2.4"/><circle cx="110" cy="30" r="2.4"/><circle cx="120" cy="30" r="2.4"/><circle cx="130" cy="30" r="2.4"/><circle cx="140" cy="30" r="2.4"/><circle cx="150" cy="30" r="2.4"/><circle cx="160" cy="30" r="2.4"/><circle cx="170" cy="30" r="2.4"/><circle cx="180" cy="30" r="2.4"/><circle cx="190" cy="30" r="2.4"/><circle cx="200" cy="30" r="2.4"/>
+              <circle cx="10"  cy="40" r="2.4"/><circle cx="20"  cy="40" r="2.4"/><circle cx="30"  cy="40" r="2.4"/><circle cx="40"  cy="40" r="2.4"/><circle cx="50"  cy="40" r="2.4"/><circle cx="60"  cy="40" r="2.4"/><circle cx="70"  cy="40" r="2.4"/><circle cx="80"  cy="40" r="2.4"/><circle cx="90"  cy="40" r="2.4"/><circle cx="100" cy="40" r="2.4"/><circle cx="110" cy="40" r="2.4"/><circle cx="120" cy="40" r="2.4"/><circle cx="130" cy="40" r="2.4"/><circle cx="140" cy="40" r="2.4"/><circle cx="150" cy="40" r="2.4"/><circle cx="160" cy="40" r="2.4"/><circle cx="170" cy="40" r="2.4"/><circle cx="180" cy="40" r="2.4"/><circle cx="190" cy="40" r="2.4"/><circle cx="200" cy="40" r="2.4"/>
+              <circle cx="10"  cy="50" r="2.4"/><circle cx="20"  cy="50" r="2.4"/><circle cx="30"  cy="50" r="2.4"/><circle cx="40"  cy="50" r="2.4"/><circle cx="50"  cy="50" r="2.4"/><circle cx="60"  cy="50" r="2.4"/><circle cx="70"  cy="50" r="2.4"/><circle cx="80"  cy="50" r="2.4"/><circle cx="90"  cy="50" r="2.4"/><circle cx="100" cy="50" r="2.4"/><circle cx="110" cy="50" r="2.4"/><circle cx="120" cy="50" r="2.4"/><circle cx="130" cy="50" r="2.4"/><circle cx="140" cy="50" r="2.4"/><circle cx="150" cy="50" r="2.4"/><circle cx="160" cy="50" r="2.4"/><circle cx="170" cy="50" r="2.4"/><circle cx="180" cy="50" r="2.4"/><circle cx="190" cy="50" r="2.4"/><circle cx="200" cy="50" r="2.4"/>
+              <circle cx="10"  cy="60" r="2.4"/><circle cx="20"  cy="60" r="2.4"/><circle cx="30"  cy="60" r="2.4"/><circle cx="40"  cy="60" r="2.4"/><circle cx="50"  cy="60" r="2.4"/><circle cx="60"  cy="60" r="2.4"/><circle cx="70"  cy="60" r="2.4"/><circle cx="80"  cy="60" r="2.4"/><circle cx="90"  cy="60" r="2.4"/><circle cx="100" cy="60" r="2.4"/><circle cx="110" cy="60" r="2.4"/><circle cx="120" cy="60" r="2.4"/><circle cx="130" cy="60" r="2.4"/><circle cx="140" cy="60" r="2.4"/><circle cx="150" cy="60" r="2.4"/><circle cx="160" cy="60" r="2.4"/><circle cx="170" cy="60" r="2.4"/><circle cx="180" cy="60" r="2.4"/><circle cx="190" cy="60" r="2.4"/><circle cx="200" cy="60" r="2.4"/>
+              <circle cx="10"  cy="70" r="2.4"/><circle cx="20"  cy="70" r="2.4"/><circle cx="30"  cy="70" r="2.4"/><circle cx="40"  cy="70" r="2.4"/><circle cx="50"  cy="70" r="2.4"/><circle cx="60"  cy="70" r="2.4"/><circle cx="70"  cy="70" r="2.4"/><circle cx="80"  cy="70" r="2.4"/><circle cx="90"  cy="70" r="2.4"/><circle cx="100" cy="70" r="2.4"/><circle cx="110" cy="70" r="2.4"/><circle cx="120" cy="70" r="2.4"/><circle cx="130" cy="70" r="2.4"/><circle cx="140" cy="70" r="2.4"/><circle cx="150" cy="70" r="2.4"/><circle cx="160" cy="70" r="2.4"/><circle cx="170" cy="70" r="2.4"/><circle cx="180" cy="70" r="2.4"/><circle cx="190" cy="70" r="2.4"/><circle cx="200" cy="70" r="2.4"/>
+              <circle cx="10"  cy="80" r="2.4"/><circle cx="20"  cy="80" r="2.4"/><circle cx="30"  cy="80" r="2.4"/><circle cx="40"  cy="80" r="2.4"/><circle cx="50"  cy="80" r="2.4"/><circle cx="60"  cy="80" r="2.4"/><circle cx="70"  cy="80" r="2.4"/><circle cx="80"  cy="80" r="2.4"/><circle cx="90"  cy="80" r="2.4"/><circle cx="100" cy="80" r="2.4"/><circle cx="110" cy="80" r="2.4"/><circle cx="120" cy="80" r="2.4"/><circle cx="130" cy="80" r="2.4"/><circle cx="140" cy="80" r="2.4"/><circle cx="150" cy="80" r="2.4"/><circle cx="160" cy="80" r="2.4"/><circle cx="170" cy="80" r="2.4"/><circle cx="180" cy="80" r="2.4"/><circle cx="190" cy="80" r="2.4"/><circle cx="200" cy="80" r="2.4"/>
+              <circle cx="10"  cy="90" r="2.4"/><circle cx="20"  cy="90" r="2.4"/><circle cx="30"  cy="90" r="2.4"/><circle cx="40"  cy="90" r="2.4"/><circle cx="50"  cy="90" r="2.4"/><circle cx="60"  cy="90" r="2.4"/><circle cx="70"  cy="90" r="2.4"/><circle cx="80"  cy="90" r="2.4"/><circle cx="90"  cy="90" r="2.4"/><circle cx="100" cy="90" r="2.4"/><circle cx="110" cy="90" r="2.4"/><circle cx="120" cy="90" r="2.4"/><circle cx="130" cy="90" r="2.4"/><circle cx="140" cy="90" r="2.4"/><circle cx="150" cy="90" r="2.4"/><circle cx="160" cy="90" r="2.4"/><circle cx="170" cy="90" r="2.4"/><circle cx="180" cy="90" r="2.4"/><circle cx="190" cy="90" r="2.4"/><circle cx="200" cy="90" r="2.4"/>
+              <circle cx="10"  cy="100" r="2.4"/><circle cx="20"  cy="100" r="2.4"/><circle cx="30"  cy="100" r="2.4"/><circle cx="40"  cy="100" r="2.4"/><circle cx="50"  cy="100" r="2.4"/><circle cx="60"  cy="100" r="2.4"/><circle cx="70"  cy="100" r="2.4"/><circle cx="80"  cy="100" r="2.4"/><circle cx="90"  cy="100" r="2.4"/><circle cx="100" cy="100" r="2.4"/><circle cx="110" cy="100" r="2.4"/><circle cx="120" cy="100" r="2.4"/><circle cx="130" cy="100" r="2.4"/><circle cx="140" cy="100" r="2.4"/><circle cx="150" cy="100" r="2.4"/><circle cx="160" cy="100" r="2.4"/><circle cx="170" cy="100" r="2.4"/><circle cx="180" cy="100" r="2.4"/><circle cx="190" cy="100" r="2.4"/><circle cx="200" cy="100" r="2.4"/>
+            </g>
+          </svg>
+          <div class="drill__cap">DRILL · 20 × 10 · 200 MARCHERS</div>
+        </div>
+        <div class="mile__desc-text">
+          <div class="mile__meta">HIGH-WATER MARK</div>
+          <h3 class="mile__head">Two hundred members. The band's high-water mark.</h3>
+          <p class="mile__body">A twenty-by-ten block of marchers stretches end zone to end zone in pre-game. No Bulldog season before or since has fielded more.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- MIDFIELD — 50 yard line, leading into the silent year -->
+    <div class="ym ym--mid">
+      <div class="ym__num">50<small>1992</small></div>
+      <div class="ym__center">
+        Midfield
+        <b>The band approaches the fifty &mdash; and the music stops.</b>
+      </div>
+      <div class="ym__num">50<small>1992</small></div>
+    </div>
+
+    <!-- 1992 — SILENT YEAR -->
+    <div class="silent" data-year="1992" data-mv="2" data-title="The Silent Year">
+      <div class="silent__stamp">TIMEOUT</div>
+      <div class="silent__rest" aria-label="Whole rest">&#119098;</div>
+      <p class="silent__cap">
+        <b>1992 &middot; THE SILENT YEAR</b>
+        No band. No halftime show. For one season, the field was silent.
+      </p>
+    </div>
+
+    <!-- =========================================================
+         MOVEMENT III · VIVACE RISOLUTO · THE RETURN
+         ========================================================= -->
+    <div class="mvbanner" data-mvkey="3">
+      <div class="mvbanner__staff" aria-hidden="true">
+        <svg viewBox="0 0 600 40" preserveAspectRatio="none">
+          <g stroke="currentColor" stroke-width="0.6" fill="none">
+            <line x1="0" y1="8"  x2="600" y2="8"/>
+            <line x1="0" y1="16" x2="600" y2="16"/>
+            <line x1="0" y1="24" x2="600" y2="24"/>
+            <line x1="0" y1="32" x2="600" y2="32"/>
+          </g>
+        </svg>
+      </div>
+      <div class="mvbanner__inner">
+        <div class="mvbanner__rule"><span></span><em>OPUS · III</em><span></span></div>
+        <h2 class="mvbanner__title"><span class="mvbanner__tempo">Vivace risoluto —</span>The <em>Return</em></h2>
+        <p class="mvbanner__descr">The band re-takes the field after a year of silence.</p>
+      </div>
+    </div>
+
+    <!-- 1993 -->
+    <article class="mile mile--right" data-year="1993" data-mv="3" data-title="The Comeback">
+      <div class="mile__ribbon">
+        <span class="mile__year">1993</span>
+        <span class="mile__rib-title">The Comeback</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">DR. GARY P. GILROY · DIRECTOR</div>
+        <h3 class="mile__head">Dr. Gary P. Gilroy restarts the Bulldog Marching Band.</h3>
+        <p class="mile__body">From the ground up. New director, new charts, new freshmen who will become the program's next thirty years of leadership.</p>
+      </div>
+    </article>
+
+    <!-- 1994 -->
+    <article class="mile mile--left" data-year="1994" data-mv="3" data-title="Hollywood">
+      <div class="mile__ribbon">
+        <span class="mile__year">1994</span>
+        <span class="mile__rib-title">Hollywood</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">HOLLYWOOD CHRISTMAS PARADE</div>
+        <h3 class="mile__head">The reborn band marches down Hollywood Boulevard.</h3>
+        <p class="mile__body">One year after the silence, the BMB takes the country's most-watched parade. The comeback is no longer local.</p>
+      </div>
+    </article>
+
+    <!-- 1999 -->
+    <article class="mile mile--right" data-year="1999" data-mv="3" data-title="A million-dollar gift">
+      <div class="mile__ribbon mile__ribbon--navy">
+        <span class="mile__year">1999</span>
+        <span class="mile__rib-title">An Anonymous Gift</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">ENDOWMENT &middot; ANONYMOUS DONOR</div>
+        <h3 class="mile__head">A million dollars, no name attached.</h3>
+        <p class="mile__body">An anonymous donor endows the program in perpetuity. The band's future is no longer year-to-year.</p>
+      </div>
+    </article>
+
+    <!-- 30-yard line / the 2000s -->
+    <div class="ym">
+      <div class="ym__num">30<small>'00</small></div>
+      <div class="ym__center">
+        Past midfield
+        <b>The Bulldogs enter the new century</b>
+      </div>
+      <div class="ym__num">30<small>'00</small></div>
+    </div>
+
+    <!-- 2010 — DRILL FORMATION INSET -->
+    <article class="mile mile--left mile--inset" data-year="2010" data-mv="3" data-title="A brother remembered">
+      <div class="mile__ribbon">
+        <span class="mile__year">2010</span>
+        <span class="mile__rib-title">A Brother Remembered</span>
+      </div>
+      <div class="mile__desc">
+        <div class="drill" aria-label="Drill formation: the band spells one hundred">
+          <svg class="drill__svg" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#9E0721">
+              <circle cx="30" cy="22" r="2.6"/><circle cx="30" cy="34" r="2.6"/><circle cx="30" cy="46" r="2.6"/><circle cx="30" cy="58" r="2.6"/><circle cx="30" cy="70" r="2.6"/><circle cx="30" cy="82" r="2.6"/>
+              <circle cx="22" cy="30" r="2.6"/>
+              <circle cx="75" cy="22" r="2.6"/><circle cx="85" cy="24" r="2.6"/><circle cx="93" cy="32" r="2.6"/><circle cx="98" cy="42" r="2.6"/>
+              <circle cx="98" cy="62" r="2.6"/><circle cx="93" cy="72" r="2.6"/><circle cx="85" cy="80" r="2.6"/><circle cx="75" cy="82" r="2.6"/>
+              <circle cx="65" cy="80" r="2.6"/><circle cx="57" cy="72" r="2.6"/><circle cx="52" cy="62" r="2.6"/><circle cx="52" cy="42" r="2.6"/>
+              <circle cx="57" cy="32" r="2.6"/><circle cx="65" cy="24" r="2.6"/>
+              <circle cx="145" cy="22" r="2.6"/><circle cx="155" cy="24" r="2.6"/><circle cx="163" cy="32" r="2.6"/><circle cx="168" cy="42" r="2.6"/>
+              <circle cx="168" cy="62" r="2.6"/><circle cx="163" cy="72" r="2.6"/><circle cx="155" cy="80" r="2.6"/><circle cx="145" cy="82" r="2.6"/>
+              <circle cx="135" cy="80" r="2.6"/><circle cx="127" cy="72" r="2.6"/><circle cx="122" cy="62" r="2.6"/><circle cx="122" cy="42" r="2.6"/>
+              <circle cx="127" cy="32" r="2.6"/><circle cx="135" cy="24" r="2.6"/>
+            </g>
+            <circle cx="40" cy="52" r="3.2" fill="none" stroke="#9E0721" stroke-width="1" stroke-dasharray="2 2"/>
+          </svg>
+          <div class="drill__cap">FORMATION · "100" · ONE SLOT LEFT OPEN</div>
+        </div>
+        <div class="mile__desc-text">
+          <div class="mile__meta">IN MEMORIAM · NATHAN RAY</div>
+          <h3 class="mile__head">A spot left open. A trophy in his name.</h3>
+          <p class="mile__body">After the loss of freshman tuba Nathan Ray, his spot is left open in every drill for the season. The Rookie of the Year award is created in his name.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- =========================================================
+         MOVEMENT IV · MAESTOSO · THE NATION TAKES NOTICE
+         ========================================================= -->
+    <div class="mvbanner" data-mvkey="4">
+      <div class="mvbanner__staff" aria-hidden="true">
+        <svg viewBox="0 0 600 40" preserveAspectRatio="none">
+          <g stroke="currentColor" stroke-width="0.6" fill="none">
+            <line x1="0" y1="8"  x2="600" y2="8"/>
+            <line x1="0" y1="16" x2="600" y2="16"/>
+            <line x1="0" y1="24" x2="600" y2="24"/>
+            <line x1="0" y1="32" x2="600" y2="32"/>
+          </g>
+        </svg>
+      </div>
+      <div class="mvbanner__inner">
+        <div class="mvbanner__rule"><span></span><em>OPUS · IV</em><span></span></div>
+        <h2 class="mvbanner__title"><span class="mvbanner__tempo">Maestoso —</span>The Nation Takes <em>Notice</em></h2>
+        <p class="mvbanner__descr">The show crescendos.</p>
+      </div>
+    </div>
+
+    <!-- 2013 -->
+    <article class="mile mile--right" data-year="2013" data-mv="4" data-title="Mountain West Champions">
+      <div class="mile__ribbon mile__ribbon--navy">
+        <span class="mile__year">2013</span>
+        <span class="mile__rib-title">Mountain West Champions</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">INAUGURAL CHAMPIONSHIP GAME</div>
+        <h3 class="mile__head">The band plays the inaugural Mountain West Championship.</h3>
+        <p class="mile__body">A new conference, a new title. The Bulldogs claim the first MWC Championship and the band scores every minute of it.</p>
+      </div>
+    </article>
+
+    <!-- 2017 — TOUCHDOWN -->
+    <div class="tdline" aria-hidden="true"></div>
+    <article class="mile mile--left mile--touchdown" data-year="2017" data-mv="4" data-title="Ensemble of Excellence">
+      <div class="mile__ribbon mile__ribbon--gold">
+        <span class="mile__year">2017</span>
+        <span class="mile__rib-title">Ensemble of Excellence</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__desc-text">
+          <div class="touchdown-stamp">TOUCHDOWN</div>
+          <div class="mile__meta">CBDNA · TOP EIGHT IN THE NATION</div>
+          <h3 class="mile__head">Named one of the country's top eight college marching bands.</h3>
+          <p class="mile__body">The College Band Directors National Association lifts the BMB to the national stage. Ninety-one years of work, recognized.</p>
+        </div>
+        <div class="medallion" aria-label="Top 8 in the Nation medallion">
+          <span class="medallion__star">★</span>
+          <div class="medallion__num">8</div>
+          <div class="medallion__label">TOP · IN · THE · NATION</div>
+          <div class="medallion__ribbon">CBDNA · 2017</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 10-yard line / red zone -->
+    <div class="ym">
+      <div class="ym__num">10<small>'20</small></div>
+      <div class="ym__center">
+        Red zone
+        <b>The final stretch toward the centennial</b>
+      </div>
+      <div class="ym__num">10<small>'20</small></div>
+    </div>
+
+    <!-- =========================================================
+         MOVEMENT V · GRANDIOSO · THE CENTENNIAL CRESCENDO
+         ========================================================= -->
+    <div class="mvbanner" data-mvkey="5">
+      <div class="mvbanner__staff" aria-hidden="true">
+        <svg viewBox="0 0 600 40" preserveAspectRatio="none">
+          <g stroke="currentColor" stroke-width="0.6" fill="none">
+            <line x1="0" y1="8"  x2="600" y2="8"/>
+            <line x1="0" y1="16" x2="600" y2="16"/>
+            <line x1="0" y1="24" x2="600" y2="24"/>
+            <line x1="0" y1="32" x2="600" y2="32"/>
+          </g>
+        </svg>
+      </div>
+      <div class="mvbanner__inner">
+        <div class="mvbanner__rule"><span></span><em>OPUS · V &middot; FINALE</em><span></span></div>
+        <h2 class="mvbanner__title"><span class="mvbanner__tempo">Grandioso —</span>The Centennial <em>Crescendo</em></h2>
+        <p class="mvbanner__descr">The march reaches the goal.</p>
+      </div>
+    </div>
+
+    <!-- 2020 -->
+    <article class="mile mile--right" data-year="2020" data-mv="5" data-title="The year without a marching band">
+      <div class="mile__ribbon mile__ribbon--navy">
+        <span class="mile__year">2020</span>
+        <span class="mile__rib-title">A Year Without a March</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">COVID-19 · SEASON CANCELLED</div>
+        <h3 class="mile__head">The pandemic empties Bulldog Stadium.</h3>
+        <p class="mile__body">For the second time in the band's history, the field falls quiet. The drums wait one season more.</p>
+      </div>
+    </article>
+
+    <!-- 2023 -->
+    <article class="mile mile--left" data-year="2023" data-mv="5" data-title="Pasadena to Dublin">
+      <div class="mile__ribbon">
+        <span class="mile__year">2023</span>
+        <span class="mile__rib-title">Pasadena to Dublin</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__meta">ROSE PARADE · DUBLIN ST. PATRICK'S DAY</div>
+        <h3 class="mile__head">Two parades, two continents, one band.</h3>
+        <p class="mile__body">The Bulldogs march down Colorado Boulevard in January, then across Dublin in March. From the foothills to the Liffey, the sound carries.</p>
+      </div>
+    </article>
+
+    <!-- 2026 — FINALE with DRILL FORMATION INSET -->
+    <article class="mile mile--right mile--inset" data-year="2026" data-mv="5" data-title="100 Years Strong">
+      <div class="mile__ribbon mile__ribbon--gold">
+        <span class="mile__year">2026</span>
+        <span class="mile__rib-title">One Hundred Years Strong</span>
+      </div>
+      <div class="mile__desc">
+        <div class="mile__desc-text">
+          <div class="mile__meta">CENTENNIAL · THE FINAL MARCH</div>
+          <h3 class="mile__head">A century of Bulldogs. One last march together.</h3>
+          <p class="mile__body">Alumni from every era come home. One stadium, one hundred years of memory, one chord held by every musician who ever wore the plume.</p>
+        </div>
+        <div class="drill" aria-label='Drill formation: the band spells "BMB 100"'>
+          <svg class="drill__svg" viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#9E0721">
+              <circle cx="10" cy="14" r="2"/><circle cx="10" cy="22" r="2"/><circle cx="10" cy="30" r="2"/><circle cx="10" cy="38" r="2"/><circle cx="10" cy="46" r="2"/><circle cx="10" cy="54" r="2"/><circle cx="10" cy="62" r="2"/>
+              <circle cx="18" cy="14" r="2"/><circle cx="26" cy="16" r="2"/><circle cx="30" cy="22" r="2"/><circle cx="26" cy="28" r="2"/><circle cx="18" cy="30" r="2"/>
+              <circle cx="18" cy="38" r="2"/><circle cx="26" cy="40" r="2"/><circle cx="30" cy="48" r="2"/><circle cx="26" cy="58" r="2"/><circle cx="18" cy="62" r="2"/>
+              <circle cx="46" cy="14" r="2"/><circle cx="46" cy="22" r="2"/><circle cx="46" cy="30" r="2"/><circle cx="46" cy="38" r="2"/><circle cx="46" cy="46" r="2"/><circle cx="46" cy="54" r="2"/><circle cx="46" cy="62" r="2"/>
+              <circle cx="54" cy="20" r="2"/><circle cx="60" cy="28" r="2"/><circle cx="66" cy="34" r="2"/><circle cx="72" cy="28" r="2"/><circle cx="78" cy="20" r="2"/>
+              <circle cx="86" cy="14" r="2"/><circle cx="86" cy="22" r="2"/><circle cx="86" cy="30" r="2"/><circle cx="86" cy="38" r="2"/><circle cx="86" cy="46" r="2"/><circle cx="86" cy="54" r="2"/><circle cx="86" cy="62" r="2"/>
+              <circle cx="102" cy="14" r="2"/><circle cx="102" cy="22" r="2"/><circle cx="102" cy="30" r="2"/><circle cx="102" cy="38" r="2"/><circle cx="102" cy="46" r="2"/><circle cx="102" cy="54" r="2"/><circle cx="102" cy="62" r="2"/>
+              <circle cx="110" cy="14" r="2"/><circle cx="118" cy="16" r="2"/><circle cx="122" cy="22" r="2"/><circle cx="118" cy="28" r="2"/><circle cx="110" cy="30" r="2"/>
+              <circle cx="110" cy="38" r="2"/><circle cx="118" cy="40" r="2"/><circle cx="122" cy="48" r="2"/><circle cx="118" cy="58" r="2"/><circle cx="110" cy="62" r="2"/>
+              <circle cx="142" cy="14" r="2"/><circle cx="142" cy="22" r="2"/><circle cx="142" cy="30" r="2"/><circle cx="142" cy="38" r="2"/><circle cx="142" cy="46" r="2"/><circle cx="142" cy="54" r="2"/><circle cx="142" cy="62" r="2"/>
+              <circle cx="136" cy="20" r="2"/>
+              <circle cx="170" cy="14" r="2"/><circle cx="178" cy="14" r="2"/><circle cx="186" cy="20" r="2"/><circle cx="190" cy="30" r="2"/><circle cx="190" cy="46" r="2"/>
+              <circle cx="186" cy="56" r="2"/><circle cx="178" cy="62" r="2"/><circle cx="170" cy="62" r="2"/>
+              <circle cx="162" cy="56" r="2"/><circle cx="158" cy="46" r="2"/><circle cx="158" cy="30" r="2"/><circle cx="162" cy="20" r="2"/>
+              <circle cx="216" cy="14" r="2"/><circle cx="224" cy="14" r="2"/><circle cx="232" cy="20" r="2"/><circle cx="236" cy="30" r="2"/><circle cx="236" cy="46" r="2"/>
+              <circle cx="232" cy="56" r="2"/><circle cx="224" cy="62" r="2"/><circle cx="216" cy="62" r="2"/>
+              <circle cx="208" cy="56" r="2"/><circle cx="204" cy="46" r="2"/><circle cx="204" cy="30" r="2"/><circle cx="208" cy="20" r="2"/>
+            </g>
+          </svg>
+          <div class="drill__cap">FORMATION · "BMB 100" · CENTENNIAL FINALE</div>
+        </div>
+      </div>
+    </article>
+
+  </div><!-- /field-body -->
+
+  <!-- ====== BOTTOM END ZONE (2026 · FINE) ====== -->
+  <div class="ez ez--bottom">
+    <div class="ez__chevrons" aria-hidden="true"></div>
+    <span class="ez__edge-top"></span>
+    <span class="ez__edge-bot"></span>
+    <div class="ez__overline">
+      <span></span><em>2026 · GOAL LINE</em><span></span>
+    </div>
+    <div class="ez__stamp">
+      Fine. One Hundred Yards.<br>
+      One Hundred Years.
+      <small>END OF SCORE · CENTENNIAL HALFTIME SHOW</small>
+    </div>
+    <div class="ez__cta-wrap">
+      <div class="ez__cta-tag">The goal we've been marching toward.</div>
+      <a href="/reunion#register" class="ez__cta">Register for the Reunion &nbsp;→</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<!-- TODO v2: extract shared Footer, componentize -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <img src="/assets/logo.png" alt="Bulldog Marching Band" class="footer__logo">
+      <div class="footer__tag">Tradition. Pride. Excellence.<br><small>Established 1926 · Fresno, California</small></div>
+    </div>
+    <div class="footer__col">
+      <div class="footer__label">Department of Music</div>
+      <address>
+        California State University, Fresno<br>
+        2380 E Keats Ave<br>
+        Fresno, CA 93710<br>
+        <a href="tel:+15592782654">(559) 278-2654</a>
+      </address>
+    </div>
+    <div class="footer__col">
+      <div class="footer__label">Follow along</div>
+      <ul class="footer__social">
+        <li><a href="https://instagram.com/fsbmb">Instagram <span>@fsbmb</span></a></li>
+        <li><a href="https://facebook.com/bulldogmarchingband">Facebook <span>/bulldogmarchingband</span></a></li>
+        <li><a href="https://youtube.com/@fsbmb">YouTube <span>@fsbmb</span></a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <div class="footer__label">The Centennial</div>
+      <ul class="footer__links">
+        <li><a href="/timeline">The Full Timeline</a></li>
+        <li><a href="/gallery">Photo Gallery</a></li>
+        <li><a href="/reunion">Reunion Weekend</a></li>
+        <li><a href="/reunion#register">Register</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__base">
+    <div class="footer__base-rule"></div>
+    <div class="footer__base-row">
+      <div>© 2026 Bulldog Marching Band Alumni Association</div>
+      <div class="footer__attr">A century of Bulldog music · A Fresno State tradition</div>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+/* === Timeline page interactions (content-driven flow) === */
+(function(){
+  'use strict';
+
+  const showNav   = document.getElementById('showNav');
+  const snRoman   = document.getElementById('snRoman');
+  const snMvname  = document.getElementById('snMvname');
+  const snYear    = document.getElementById('snYear');
+  const snTitle   = document.getElementById('snTitle');
+  const marker    = document.getElementById('minimapMarker');
+  const minimap   = document.getElementById('minimap');
+  const fieldBody = document.getElementById('fieldBody');
+
+  const movements = {
+    1: { roman: 'I.',   name: 'ALLEGRO CON SPIRITO' },
+    2: { roman: 'II.',  name: 'ADAGIO DOLENTE' },
+    3: { roman: 'III.', name: 'VIVACE RISOLUTO' },
+    4: { roman: 'IV.',  name: 'MAESTOSO' },
+    5: { roman: 'V.',   name: 'GRANDIOSO' }
+  };
+
+  /* Collect milestones in DOM order */
+  const items = Array.from(document.querySelectorAll('[data-year]')).map(el => ({
+    el,
+    year:  el.dataset.year,
+    mv:    el.dataset.mv,
+    title: el.dataset.title
+  }));
+
+  /* IntersectionObserver — reveal */
+  const revealTargets = document.querySelectorAll('.mile, .mvbanner, .silent, .tdline, .ym');
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting){
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+    revealTargets.forEach(el => io.observe(el));
+  } else {
+    revealTargets.forEach(el => el.classList.add('is-in'));
+  }
+
+  /* Scroll updates */
+  function update(){
+    const showNavOn = (window.scrollY > 200);
+    showNav.classList.toggle('is-on', showNavOn);
+
+    const playheadY = window.scrollY + window.innerHeight * 0.4;
+
+    /* current item: last one whose top has passed the playhead */
+    let current = items[0];
+    for (let i = 0; i < items.length; i++){
+      const top = items[i].el.getBoundingClientRect().top + window.scrollY;
+      if (top <= playheadY) current = items[i];
+      else break;
+    }
+    if (current){
+      const mv = movements[current.mv];
+      if (mv){
+        snRoman.textContent  = mv.roman;
+        snMvname.textContent = mv.name;
+      }
+      snYear.textContent  = current.year;
+      snTitle.textContent = current.title;
+    }
+
+    /* minimap progress: based on traversed portion of field-body */
+    const fbRect = fieldBody.getBoundingClientRect();
+    const fbTop = fbRect.top + window.scrollY;
+    const fbH = fieldBody.offsetHeight;
+    let progress = (playheadY - fbTop) / fbH;
+    progress = Math.max(0, Math.min(1, progress));
+    marker.style.left = (progress * 100) + '%';
+  }
+
+  document.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+
+  /* Minimap click → scroll to corresponding movement banner */
+  minimap.addEventListener('click', (e) => {
+    const seg = e.target.closest('[data-jump-mv]');
+    if (!seg) return;
+    const mv = seg.dataset.jumpMv;
+    const banner = document.querySelector(`.mvbanner[data-mvkey="${mv}"]`);
+    if (!banner) return;
+    const top = banner.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.18;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+})();
+</script>

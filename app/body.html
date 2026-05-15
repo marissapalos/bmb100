@@ -1,0 +1,399 @@
+<!-- ===== Sticky mini nav ===== -->
+<!-- TODO v2: extract shared Nav, componentize -->
+<header class="topnav" id="topnav">
+  <a class="topnav__brand" href="/">
+    <span class="topnav__mark">BMB</span>
+    <span class="topnav__sep"></span>
+    <span class="topnav__years">1926&nbsp;–&nbsp;2026</span>
+  </a>
+  <nav class="topnav__links">
+    <a href="/timeline" data-nav="timeline">Timeline</a>
+    <a href="/gallery" data-nav="gallery">Gallery</a>
+    <a href="/reunion" data-nav="reunion">Reunion</a>
+    <a href="/reunion#register" class="topnav__cta">Register</a>
+  </nav>
+</header>
+
+<!-- ===== 1 · HERO ===== -->
+<section class="hero" id="top">
+  <div class="hero__bg" aria-hidden="true">
+    <img src="/assets/photos/brass-night.jpg" alt="" class="hero__img">
+    <div class="hero__vignette"></div>
+    <div class="hero__grain"></div>
+  </div>
+
+  <div class="hero__topbar">
+    <div class="hero__topbar-rule"></div>
+    <div class="hero__topbar-meta">EST. 1926 · FRESNO, CALIFORNIA · A CENTENNIAL CELEBRATION</div>
+    <div class="hero__topbar-rule"></div>
+  </div>
+
+  <div class="hero__content">
+    <div class="hero__crest">
+      <span class="hero__crest-line"></span>
+      <span class="hero__crest-text">CENTENNIAL · 1926 — 2026</span>
+      <span class="hero__crest-line"></span>
+    </div>
+
+    <h1 class="hero__title">
+      <span class="hero__eyebrow">One Hundred Years of the</span>
+      <span class="hero__script">Bulldog Marching Band</span>
+    </h1>
+
+    <div class="hero__dates" aria-label="1926 to 2026">
+      <span class="hero__year">1926</span>
+      <span class="hero__dash"></span>
+      <span class="hero__year">2026</span>
+    </div>
+
+    <div class="hero__tagline">
+      <span>Tradition.</span><i></i><span>Pride.</span><i></i><span>Excellence.</span>
+    </div>
+
+    <div class="hero__ctas">
+      <a href="/timeline" class="btn btn--ghost">View the Timeline</a>
+      <a href="/gallery" class="btn btn--ghost">Photo Gallery</a>
+      <a href="/reunion" class="btn btn--solid">Join the Celebration</a>
+    </div>
+  </div>
+
+  <a href="#chapter-preview" class="hero__scroll" aria-label="Scroll down">
+    <span>SCROLL</span>
+    <svg width="14" height="40" viewBox="0 0 14 40" aria-hidden="true"><path d="M7 0v36M1 30l6 6 6-6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+  </a>
+</section>
+
+<!-- ===== TIMELINE PREVIEW ===== -->
+<section class="t-intro" id="chapter-preview">
+  <div class="t-intro__rule"></div>
+  <div class="t-intro__kicker">A CENTURY · IN BRIEF</div>
+  <h2 class="t-intro__title">100 Years</h2>
+
+  <!-- Treble clef + 4/4 time signature ornament -->
+  <div class="mvmts__clef" aria-hidden="true">
+    <svg viewBox="0 0 360 80" class="mvmts__clef-svg" width="100%" height="80">
+      <!-- 5-line staff fragment -->
+      <g stroke="currentColor" stroke-width="0.8" fill="none">
+        <line x1="20"  y1="22" x2="340" y2="22"/>
+        <line x1="20"  y1="32" x2="340" y2="32"/>
+        <line x1="20"  y1="42" x2="340" y2="42"/>
+        <line x1="20"  y1="52" x2="340" y2="52"/>
+        <line x1="20"  y1="62" x2="340" y2="62"/>
+      </g>
+      <!-- Treble clef glyph -->
+      <text x="80" y="66"
+            font-family="Noto Music, Bravura, Arial, sans-serif"
+            font-size="64"
+            fill="currentColor"
+            text-anchor="middle">&#x1D11E;</text>
+      <!-- 4/4 time signature, stacked -->
+      <g font-family="Playfair Display, serif" font-weight="900" fill="currentColor" text-anchor="middle">
+        <text x="160" y="40" font-size="22">4</text>
+        <text x="160" y="60" font-size="22">4</text>
+      </g>
+      <!-- A floating tempo mark above the staff -->
+      <g fill="currentColor">
+        <ellipse cx="220" cy="40" rx="4" ry="3.2" transform="rotate(-22 220 40)"/>
+        <line x1="223.5" y1="40" x2="223.5" y2="18" stroke="currentColor" stroke-width="1.1"/>
+      </g>
+      <text x="232" y="22"
+            font-family="Playfair Display, serif"
+            font-style="italic"
+            font-weight="600"
+            font-size="13"
+            fill="currentColor">= 120</text>
+    </svg>
+  </div>
+
+  <p class="t-intro__lede">Across five movements — the founding, the silence, the comeback, the recognition, and the homecoming we're building toward.</p>
+</section>
+
+<section class="mvmts">
+  <ol class="mvmts__list">
+
+    <!-- ===== MOVEMENT I — 1926 ===== -->
+    <li class="mvmt">
+      <div class="mvmt__ribbonwrap">
+        <div class="ribbon ribbon--right">
+          <span class="ribbon__body">
+            <span class="ribbon__year">1926</span>
+            <span class="ribbon__title">The Band is Born</span>
+          </span>
+        </div>
+      </div>
+      <div class="mvmt__copy">
+        <div class="mvmt__label">
+          <span class="mvmt__roman">I.</span>
+          <span class="mvmt__note" aria-hidden="true">&#9833;</span>
+          <span class="mvmt__name">Movement One</span>
+          <span class="mvmt__dash" aria-hidden="true">—</span>
+          <em class="mvmt__tempo">Allegro con spirito</em>
+        </div>
+        <h3 class="mvmt__head">Thirty-six pioneers under Arthur C. Forsblad.</h3>
+        <p class="mvmt__lede">The first Fresno Normal School band forms with thirty-six charter members, planting the seed of what will become a century-long tradition of Bulldog music.</p>
+        <p class="mvmt__attr">Fresno Normal School · Founding</p>
+      </div>
+    </li>
+
+    <!-- Divider — quarter rest (silence approaches) -->
+    <li class="mvmts__rule" aria-hidden="true">
+      <span class="mvmts__rule-line"></span>
+      <span class="mvmts__rule-glyph">
+        <svg viewBox="0 0 20 36" width="16" height="28">
+          <path d="M5 4 L13 12 L6 18 L13 26 L7 32 Q12 32 15 35"
+                fill="none" stroke="currentColor" stroke-width="2.8"
+                stroke-linecap="round" stroke-linejoin="miter"/>
+        </svg>
+      </span>
+      <span class="mvmts__rule-line"></span>
+    </li>
+
+    <!-- ===== MOVEMENT II — 1992 ===== -->
+    <li class="mvmt">
+      <div class="mvmt__ribbonwrap">
+        <div class="ribbon ribbon--right ribbon--muted">
+          <span class="ribbon__body">
+            <span class="ribbon__year">1992</span>
+            <span class="ribbon__title">The Silent Year</span>
+          </span>
+        </div>
+      </div>
+      <div class="mvmt__copy">
+        <div class="mvmt__label">
+          <span class="mvmt__roman">II.</span>
+          <span class="mvmt__note" aria-hidden="true">&#9833;</span>
+          <span class="mvmt__name">Movement Two</span>
+          <span class="mvmt__dash" aria-hidden="true">—</span>
+          <em class="mvmt__tempo">Adagio dolente</em>
+        </div>
+        <h3 class="mvmt__head">Budget cuts silence the marching band.</h3>
+        <p class="mvmt__lede">For one painful season, the program goes dark. Dr. Sutherland keeps the embers alive with a small "Spirit Band" at the games — a quieter sound, but the same heart.</p>
+        <p class="mvmt__attr">In memoriam · a season without a march</p>
+      </div>
+    </li>
+
+    <!-- Divider — eighth note (sound returns) -->
+    <li class="mvmts__rule" aria-hidden="true">
+      <span class="mvmts__rule-line"></span>
+      <span class="mvmts__rule-glyph">
+        <svg viewBox="0 0 22 32" width="18" height="28">
+          <ellipse cx="6" cy="24" rx="5" ry="3.7" transform="rotate(-22 6 24)" fill="currentColor"/>
+          <line x1="10.4" y1="23" x2="10.4" y2="4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M10.4 4 Q19 7 18 13 Q15 10 10.4 11 Z" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="mvmts__rule-line"></span>
+    </li>
+
+    <!-- ===== MOVEMENT III — 1993 ===== -->
+    <li class="mvmt">
+      <div class="mvmt__ribbonwrap">
+        <div class="ribbon ribbon--right">
+          <span class="ribbon__body">
+            <span class="ribbon__year">1993</span>
+            <span class="ribbon__title">The Comeback</span>
+          </span>
+        </div>
+      </div>
+      <div class="mvmt__copy">
+        <div class="mvmt__label">
+          <span class="mvmt__roman">III.</span>
+          <span class="mvmt__note" aria-hidden="true">&#9833;</span>
+          <span class="mvmt__name">Movement Three</span>
+          <span class="mvmt__dash" aria-hidden="true">—</span>
+          <em class="mvmt__tempo">Vivace risoluto</em>
+        </div>
+        <h3 class="mvmt__head">The Bulldog Marching Band returns — and the Bulldog Beat is born.</h3>
+        <p class="mvmt__lede">Dr. Gilroy arrives, rebuilds the program from the ground up, and launches the Bulldog Beat alongside it. The march is on again.</p>
+        <p class="mvmt__attr">Dr. Gary P. Gilroy, Director</p>
+      </div>
+    </li>
+
+    <!-- Divider — beamed eighth notes (momentum) -->
+    <li class="mvmts__rule" aria-hidden="true">
+      <span class="mvmts__rule-line"></span>
+      <span class="mvmts__rule-glyph">
+        <svg viewBox="0 0 36 32" width="30" height="28">
+          <ellipse cx="6" cy="24" rx="5" ry="3.7" transform="rotate(-22 6 24)" fill="currentColor"/>
+          <ellipse cx="26" cy="22" rx="5" ry="3.7" transform="rotate(-22 26 22)" fill="currentColor"/>
+          <line x1="10.4" y1="23" x2="10.4" y2="5" stroke="currentColor" stroke-width="1.4"/>
+          <line x1="30.4" y1="21" x2="30.4" y2="3" stroke="currentColor" stroke-width="1.4"/>
+          <line x1="10.4" y1="5" x2="30.4" y2="3" stroke="currentColor" stroke-width="3.6" stroke-linecap="butt"/>
+        </svg>
+      </span>
+      <span class="mvmts__rule-line"></span>
+    </li>
+
+    <!-- ===== MOVEMENT IV — 2017 ===== -->
+    <li class="mvmt">
+      <div class="mvmt__ribbonwrap">
+        <div class="ribbon ribbon--right">
+          <span class="ribbon__body">
+            <span class="ribbon__year">2017</span>
+            <span class="ribbon__title">Ensemble of Excellence</span>
+          </span>
+        </div>
+      </div>
+      <div class="mvmt__copy">
+        <div class="mvmt__label">
+          <span class="mvmt__roman">IV.</span>
+          <span class="mvmt__note" aria-hidden="true">&#9833;</span>
+          <span class="mvmt__name">Movement Four</span>
+          <span class="mvmt__dash" aria-hidden="true">—</span>
+          <em class="mvmt__tempo">Maestoso</em>
+        </div>
+        <h3 class="mvmt__head">Named one of the country's top college marching bands.</h3>
+        <p class="mvmt__lede">The College Band Directors National Association names the Bulldog Marching Band among the top eight college marching bands in the United States.</p>
+        <p class="mvmt__attr">CBDNA · Top eight in the nation</p>
+      </div>
+    </li>
+
+    <!-- Divider — quarter note (steady pulse toward the centennial) -->
+    <li class="mvmts__rule" aria-hidden="true">
+      <span class="mvmts__rule-line"></span>
+      <span class="mvmts__rule-glyph">
+        <svg viewBox="0 0 16 32" width="14" height="28">
+          <ellipse cx="6" cy="24" rx="5" ry="3.7" transform="rotate(-22 6 24)" fill="currentColor"/>
+          <line x1="10.4" y1="23" x2="10.4" y2="4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="mvmts__rule-line"></span>
+    </li>
+
+    <!-- ===== MOVEMENT V — 2026 ===== -->
+    <li class="mvmt mvmt--finale">
+      <div class="mvmt__ribbonwrap">
+        <div class="ribbon ribbon--right ribbon--gold">
+          <span class="ribbon__body">
+            <span class="ribbon__year">2026</span>
+            <span class="ribbon__title">100 Years Strong</span>
+          </span>
+        </div>
+      </div>
+      <div class="mvmt__copy">
+        <div class="mvmt__label">
+          <span class="mvmt__roman">V.</span>
+          <span class="mvmt__note" aria-hidden="true">&#9833;</span>
+          <span class="mvmt__name">Movement Five</span>
+          <span class="mvmt__dash" aria-hidden="true">—</span>
+          <em class="mvmt__tempo">Grandioso</em>
+        </div>
+        <h3 class="mvmt__head">A century of Bulldogs. One last march together.</h3>
+        <p class="mvmt__lede">One hundred years after thirty-six musicians first took the field, alumni from every era come home. Three days, one stadium, one hundred years of memory.</p>
+        <p class="mvmt__attr">CENTENNIAL · The chapter we write together</p>
+      </div>
+    </li>
+
+  </ol>
+
+  <!-- ===== FINE — final bar line capstone ===== -->
+  <div class="mvmts__fine" aria-label="End of the score">
+    <svg viewBox="0 0 360 60" class="mvmts__fine-svg" width="100%" height="60" preserveAspectRatio="xMidYMid meet">
+      <g stroke="currentColor" stroke-width="0.85" fill="none">
+        <line x1="0" y1="18" x2="360" y2="18"/>
+        <line x1="0" y1="26" x2="360" y2="26"/>
+        <line x1="0" y1="34" x2="360" y2="34"/>
+        <line x1="0" y1="42" x2="360" y2="42"/>
+        <line x1="0" y1="50" x2="360" y2="50"/>
+      </g>
+      <!-- Final bar line: thin + thick -->
+      <g stroke="currentColor" fill="none">
+        <line x1="354" y1="18" x2="354" y2="50" stroke-width="0.9"/>
+        <line x1="358.5" y1="18" x2="358.5" y2="50" stroke-width="2.6"/>
+      </g>
+    </svg>
+    <div class="mvmts__fine-word">Fine.</div>
+  </div>
+
+  <div class="mvmts__cta">
+    <div class="mvmts__cta-tag">Read the full score — all sixteen milestones.</div>
+    <a href="/timeline" class="btn btn--solid btn--large">See the Full Timeline →</a>
+  </div>
+</section>
+
+<!-- ===== REUNION TEASER ===== -->
+<section class="r-teaser" id="reunion-teaser">
+  <div class="r-teaser__inner">
+    <div class="r-teaser__left">
+      <div class="r-teaser__photo">
+        <img src="/assets/photos/full-band-stadium.jpg" alt="The Bulldog Marching Band on the field at Bulldog Stadium">
+      </div>
+      <div class="r-teaser__stamp">
+        REUNION<strong>2026</strong>
+      </div>
+    </div>
+    <div class="r-teaser__right">
+      <div class="r-teaser__kicker">JOIN THE CELEBRATION</div>
+      <h2 class="r-teaser__title">Come home for the <em>centennial</em>.</h2>
+      <p class="r-teaser__copy">A homecoming for every alum who ever marched, played, or wore the plume — three days of music, memory, and one final march together.</p>
+
+      <div class="r-teaser__meta">
+        <div class="r-teaser__meta-item">
+          <div class="r-teaser__meta-label">When</div>
+          <div class="r-teaser__meta-value">[Date — TBD]</div>
+        </div>
+        <div class="r-teaser__meta-item">
+          <div class="r-teaser__meta-label">Where</div>
+          <div class="r-teaser__meta-value">[Venue — TBD]</div>
+        </div>
+        <div class="r-teaser__meta-item">
+          <div class="r-teaser__meta-label">For</div>
+          <div class="r-teaser__meta-value">Every BMB era</div>
+        </div>
+      </div>
+
+      <div class="r-teaser__ctas">
+        <a href="/reunion#register" class="btn btn--solid btn--large">Register Now →</a>
+        <a href="/reunion" class="r-teaser__link">See Full Reunion Details →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<!-- TODO v2: extract shared Footer, componentize -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <img src="/assets/logo.png" alt="Bulldog Marching Band" class="footer__logo">
+      <div class="footer__tag">Tradition. Pride. Excellence.<br><small>Established 1926 · Fresno, California</small></div>
+    </div>
+
+    <div class="footer__col">
+      <div class="footer__label">Department of Music</div>
+      <address>
+        California State University, Fresno<br>
+        2380 E Keats Ave<br>
+        Fresno, CA 93710<br>
+        <a href="tel:+15592782654">(559) 278-2654</a>
+      </address>
+    </div>
+
+    <div class="footer__col">
+      <div class="footer__label">Follow along</div>
+      <ul class="footer__social">
+        <li><a href="https://instagram.com/fsbmb">Instagram <span>@fsbmb</span></a></li>
+        <li><a href="https://facebook.com/bulldogmarchingband">Facebook <span>/bulldogmarchingband</span></a></li>
+        <li><a href="https://youtube.com/@fsbmb">YouTube <span>@fsbmb</span></a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <div class="footer__label">The Centennial</div>
+      <ul class="footer__links">
+        <li><a href="/timeline">The Full Timeline</a></li>
+        <li><a href="/gallery">Photo Gallery</a></li>
+        <li><a href="/reunion">Reunion Weekend</a></li>
+        <li><a href="/reunion#register">Register</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer__base">
+    <div class="footer__base-rule"></div>
+    <div class="footer__base-row">
+      <div>© 2026 Bulldog Marching Band Alumni Association</div>
+      <div class="footer__attr">A century of Bulldog music · A Fresno State tradition</div>
+    </div>
+  </div>
+</footer>
