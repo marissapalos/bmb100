@@ -1,26 +1,30 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Brand palette — Fresno State Bulldog Marching Band */
+  --color-cardinal: #CE0E2D;
+  --color-navy: #003594;
+  --color-cream: #F4EFE2;
+
+  /* Semantic aliases */
+  --color-background: var(--color-cream);
+  --color-foreground: #1a1a1a;
+  --color-primary: var(--color-cardinal);
+  --color-secondary: var(--color-navy);
+
+  /* Font families — driven by next/font CSS variables set in layout.tsx */
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  --font-script: var(--font-script);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }

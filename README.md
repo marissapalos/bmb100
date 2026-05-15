@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BMB Centennial · 1926–2026
 
-## Getting Started
+A multi-page event website for the Fresno State Bulldog Marching Band's 100-year
+celebration. Heritage/commemorative aesthetic; designed to receive page
+implementations from Claude Design handoff bundles.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- [Next.js](https://nextjs.org) (App Router) · TypeScript · ESLint
+- [Tailwind CSS](https://tailwindcss.com) v4 (CSS-first config via `@theme`)
+- [Motion](https://motion.dev) (animation; formerly Framer Motion)
+- [react-hook-form](https://react-hook-form.com) + [zod](https://zod.dev) +
+  `@hookform/resolvers` (wired up as forms get added)
+
+## Project layout
+
+```
+app/
+  layout.tsx            shared Nav + Footer, font setup, metadata
+  page.tsx              homepage placeholder
+  globals.css           Tailwind import + design tokens (@theme)
+  timeline/page.tsx     placeholder
+  gallery/page.tsx      placeholder
+  reunion/page.tsx      placeholder
+components/
+  Nav.tsx               shared top nav
+  Footer.tsx            shared footer
+  ui/                   shared primitives (empty — populated from design handoff)
+lib/
+  timeline.ts           typed Movement + Milestone data
+  utils.ts              cn() Tailwind class-merge helper
+public/
+  photos/               archival photo directory
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Design tokens
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Defined in [app/globals.css](app/globals.css) via Tailwind v4's `@theme` directive.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Token              | Value     | Notes                                   |
+| ------------------ | --------- | --------------------------------------- |
+| `--color-cardinal` | `#CE0E2D` | also aliased as `primary`               |
+| `--color-navy`    | `#003594` | also aliased as `secondary`             |
+| `--color-cream`   | `#F4EFE2` | warm off-white; default page background |
 
-## Learn More
+Fonts are wired via `next/font` as CSS variables so families can be swapped to
+match the final design output without touching component code:
 
-To learn more about Next.js, take a look at the following resources:
+| Variable        | Placeholder      | Use                        |
+| --------------- | ---------------- | -------------------------- |
+| `--font-serif`  | Playfair Display | weighty heritage headlines |
+| `--font-sans`   | Inter            | body / UI                  |
+| `--font-script` | Pinyon Script    | display logotype accents   |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Local development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm install
+npm run dev
+```
 
-## Deploy on Vercel
+The dev server runs at <http://localhost:3000>. The four routes (`/`,
+`/timeline`, `/gallery`, `/reunion`) all render placeholder content with the
+shared Nav + Footer.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Environment variables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Copy `.env.example` to `.env.local` when v2 features (Supabase-backed reunion
+registration) come online. Nothing in the current scaffold reads env vars.
+
+## Deployment
+
+Auto-deploys to [Vercel](https://vercel.com) on `git push` to `main`. No build
+configuration needed — Next.js is detected automatically.
