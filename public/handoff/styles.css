@@ -131,7 +131,11 @@ body::before{
 }
 @media (max-width: 640px){
   .evt-sep{ display: none; }
-  .evt-loc{ display: block; }
+  .evt-loc{ display: block; margin-top: 6px; }
+  .evt-title{
+    font-size: 14px !important;
+    white-space: nowrap;
+  }
 }
 
 @media (max-width: 640px){
