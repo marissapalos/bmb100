@@ -122,6 +122,10 @@ body::before{
 }
 .topnav__cta:hover{ background: var(--red-deep) }
 
+.evt-title--long{
+  font-size: clamp(21px, 2vw, 27px);
+}
+
 /* Event card location: inline on desktop, stacked on mobile */
 .evt-loc{
   font-family: var(--sans);
@@ -134,7 +138,7 @@ body::before{
   .evt-loc{ display: block; margin-top: 6px; }
   .evt-title--long{
     font-size: 14px !important;
-    white-space: nowrap;
+    white-space: nowrap !important;
   }
 }
 
