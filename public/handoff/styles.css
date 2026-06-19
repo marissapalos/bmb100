@@ -122,8 +122,51 @@ body::before{
 }
 .topnav__cta:hover{ background: var(--red-deep) }
 
-@media (max-width: 720px){
-  .topnav__links a:not(.topnav__cta){ display:none }
+@media (max-width: 768px){
+  .topnav{
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px clamp(16px, 4vw, 32px);
+  }
+  .topnav__brand{
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+  }
+  .topnav__mark{
+    font-size: 16px;
+    text-align: center;
+  }
+  .topnav__sep{
+    display: none;
+  }
+  .topnav__years{
+    font-size: 11px;
+  }
+  .topnav__links{
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+  }
+  .topnav__links a:not(.topnav__cta){
+    display: none;
+  }
+  .topnav__cta{
+    padding: 10px 20px;
+    font-size: 12px;
+    min-width: 80%;
+  }
+}
+
+@media (max-width: 640px){
+  .topnav__years{
+    display: none;
+  }
+  .topnav__cta{
+    width: 100%;
+    min-width: unset;
+  }
 }
 
 /* Era break (chapter divider inside timeline) */
