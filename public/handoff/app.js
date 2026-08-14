@@ -12,8 +12,12 @@
   }
 
   /* --- Top nav scroll state --- */
-  const nav = document.getElementById('topnav');
+  /* Looked up per call, not cached: client-side route changes swap in a new
+     #topnav node, and a cached reference would leave the new nav transparent
+     over cream content. */
   const onScroll = () => {
+    const nav = document.getElementById('topnav');
+    if (!nav) return;
     if (window.scrollY > 60) nav.classList.add('is-scrolled');
     else nav.classList.remove('is-scrolled');
   };

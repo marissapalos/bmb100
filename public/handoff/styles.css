@@ -2326,3 +2326,328 @@ body::before{
   .ms__content{ width: 100%; margin-left: 52px !important; margin-right: 0 !important; padding: 0 0 0 4px !important }
   .ms::before{ left: 26px; top: 38px }
 }
+
+/* ============================================================
+   Fundraising
+   ============================================================ */
+
+/* This page opens on cream rather than a photo, so the nav cannot start transparent. */
+.topnav--solid{
+  background: rgba(244,235,216,0.96);
+  color: var(--ink);
+  border-bottom-color: rgba(184,168,135,0.55);
+}
+
+.fundhead{
+  position:relative; z-index:2;
+  padding: clamp(120px, 15vh, 170px) var(--gutter) clamp(8px, 1.6vh, 16px);
+  text-align:center;
+}
+.fundhead__drop{
+  width:1px; height: clamp(30px, 5vh, 44px);
+  background: rgba(6,18,50,.25);
+  margin: 0 auto clamp(22px, 3vh, 30px);
+}
+.fundhead__kicker{
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: .3em;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.fundhead__title{
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: clamp(44px, 6.4vw, 88px);
+  line-height: 1.02;
+  letter-spacing: -.02em;
+  color: var(--navy-ink);
+  margin: 18px 0 22px;
+}
+.fundhead__lede{
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 660px;
+  margin: 0 auto;
+  text-wrap: pretty;
+}
+
+.fund{ position:relative; z-index:2 }
+.fund__inner{
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: clamp(46px, 6vw, 70px) var(--gutter) 0;
+}
+.fund__inner--last{ padding-bottom: clamp(70px, 9vw, 100px) }
+
+/* Section header row: badge, title, rule, meta */
+.fund-sechead{
+  display:flex; align-items:center; gap: clamp(14px, 2vw, 22px);
+  flex-wrap:wrap;
+  margin-bottom: 22px;
+}
+.fund-sechead__badge{
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: .18em;
+  font-size: 13px;
+  text-transform: uppercase;
+  color:#fff;
+  background: var(--red);
+  padding: 9px 16px;
+}
+.fund-sechead__badge--navy{ background: var(--navy-ink) }
+.fund-sechead__title{
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: clamp(22px, 2.6vw, 30px);
+  line-height: 1.1;
+  color: var(--navy-ink);
+}
+.fund-sechead__rule{ flex:1; min-width:24px; height:1px; background: var(--rule) }
+.fund-sechead__meta{
+  font-family: var(--display);
+  letter-spacing: .16em;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  white-space:nowrap;
+}
+
+/* Card shell */
+.fund-card{
+  background:#fff;
+  border: 1px solid var(--cream-3);
+  box-shadow: 0 2px 10px rgba(6,18,50,.10);
+}
+
+/* Featured fundraiser: navy availability rail plus body */
+.fund-card--feature{
+  display:grid;
+  grid-template-columns: 190px 1fr;
+}
+.fund-card__rail{
+  background: var(--navy-ink);
+  color: var(--cream);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:6px;
+  padding: 36px 18px;
+  text-align:center;
+}
+.fund-card__rail-label{
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: .22em;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+.fund-card__rail-value{
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: clamp(32px, 3.4vw, 40px);
+  line-height:1;
+  color:#fff;
+}
+.fund-card__body{ padding: clamp(26px, 3vw, 34px) clamp(24px, 3.4vw, 40px) clamp(30px, 3.4vw, 38px) }
+.fund-card__title{
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(27px, 3.4vw, 38px);
+  line-height: 1.1;
+  color: var(--navy-ink);
+  margin: 0 0 8px;
+}
+.fund-card__standfirst{
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(17px, 1.7vw, 19px);
+  color: var(--red);
+  margin-bottom: 18px;
+}
+.fund-card__text{
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  margin: 0 0 6px;
+  max-width: 720px;
+  text-wrap: pretty;
+}
+.fund-card__note{
+  font-size: 15px;
+  line-height: 1.7;
+  font-style: italic;
+  color: var(--ink-mute);
+  margin: 0 0 22px;
+  max-width: 720px;
+}
+
+/* Detail pills */
+.fund-tags{ display:flex; flex-wrap:wrap; gap:9px; margin:0; padding:0 }
+.fund-tags li{
+  list-style:none;
+  background: var(--cream-3);
+  color: var(--ink-2);
+  font-size: 13.5px;
+  padding: 7px 14px;
+  border-radius: 999px;
+}
+.fund-card__tags{ margin-bottom: 28px }
+
+/* Buttons */
+.fund-btn{
+  display:inline-block;
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: .16em;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration:none;
+  padding: 15px 30px;
+  background: var(--red);
+  color:#fff;
+  border: 1px solid var(--red-deep);
+  transition: background .25s ease, color .25s ease;
+}
+.fund-btn:hover{ background: var(--red-deep) }
+.fund-btn--ghost{
+  background: transparent;
+  color: var(--navy-ink);
+  border: 1.5px solid var(--navy-ink);
+  padding: 14px 28px;
+}
+.fund-btn--ghost:hover{ background: var(--navy-ink); color: var(--cream) }
+/* Placeholder state until the purchase link exists */
+.fund-btn--soon{
+  cursor: default;
+  background: var(--cream-3);
+  color: var(--ink-mute);
+  border-color: var(--rule);
+}
+.fund-btn--soon:hover{ background: var(--cream-3) }
+.fund-btn__aside{
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: .14em;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-left: 16px;
+}
+
+/* Profit share: wide card plus partner card */
+.fund-split{
+  display:grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 26px;
+  align-items:start;
+}
+.fund-card__bar{
+  background: var(--navy-ink);
+  padding: 18px clamp(22px, 2.4vw, 30px);
+  display:flex; align-items:center; gap:14px;
+  flex-wrap:wrap;
+}
+.fund-card__bar-lead{
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: .2em;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+.fund-card__bar-sep{ width:1px; height:16px; background: rgba(244,235,216,.28) }
+.fund-card__bar-text{
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: .16em;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+.fund-card__bar--red{ background: var(--red) }
+.fund-card__bar--red .fund-card__bar-lead{ color:#fff }
+
+.fund-partner{ padding: clamp(28px, 3vw, 34px) 26px 30px; text-align:center }
+.fund-partner__month{
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: .24em;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.fund-partner__name{
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(26px, 2.6vw, 30px);
+  line-height: 1.2;
+  color: var(--navy-ink);
+  margin-bottom: 16px;
+}
+.fund-partner__text{
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--ink-mute);
+  margin: 0 0 24px;
+}
+.fund-partner__foot{
+  border-top: 1px solid var(--cream-3);
+  padding-top: 20px;
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: .16em;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* Closing strip */
+.fund-closer{
+  border-top: 1px solid var(--rule);
+  padding-top: 34px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:24px; flex-wrap:wrap;
+}
+.fund-closer__kicker{
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: .24em;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+.fund-closer__line{
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(20px, 2.2vw, 24px);
+  color: var(--navy-ink);
+  max-width: 620px;
+  text-wrap: pretty;
+}
+
+@media (max-width: 880px){
+  .fund-split{ grid-template-columns: 1fr }
+}
+@media (max-width: 680px){
+  .fund-card--feature{ grid-template-columns: 1fr }
+  .fund-card__rail{
+    flex-direction:row; align-items:baseline; justify-content:center; gap:12px;
+    padding: 18px;
+  }
+  .fund-card__rail-value{ font-size: 28px }
+  .fund-btn{ display:block; text-align:center }
+  .fund-btn__aside{ display:block; margin: 12px 0 0 }
+  .fund-closer{ display:block }
+  .fund-closer .fund-btn--ghost{ margin-top: 24px }
+}
