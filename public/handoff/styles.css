@@ -2787,7 +2787,6 @@ body::before{
   }
   .fund-card__rail-value{ font-size: 28px }
   .fund-card--split{ grid-template-columns: 1fr }
-  .fund-card__text{ text-align: justify }
   .fund-card__visual{ min-height: 440px }
   /* Guaranteed clearance above the corner card graphic, so it can never
      paint over the label/badge row even if the copy column is short. */
