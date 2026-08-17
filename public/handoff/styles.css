@@ -2340,15 +2340,37 @@ body::before{
 
 .fundhead{
   position:relative; z-index:2;
-  padding: clamp(120px, 15vh, 170px) var(--gutter) clamp(8px, 1.6vh, 16px);
+  /* Top pad absorbs the ~66px the removed __drop used to contribute, so the
+     composition stays put and the outer ring clears the fixed nav. */
+  padding: clamp(200px, 26vh, 260px) var(--gutter) clamp(28px, 4vh, 48px);
   text-align:center;
+  overflow:hidden;
+  /* Two soft corner washes. Radii are percentages of the section box,
+     sized to spread across most of the hero while still fading to fully
+     transparent well before the bottom edge (no seam with .fund).
+     Bleed off the left/right/top edges is fine. */
+  background:
+    radial-gradient(60% 85% at 12% 8%, rgba(206,14,45,0.10) 0, transparent 100%),
+    radial-gradient(55% 80% at 88% 55%, rgba(0,53,148,0.08) 0, transparent 100%);
 }
-.fundhead__drop{
-  width:1px; height: clamp(30px, 5vh, 44px);
-  background: rgba(6,18,50,.25);
-  margin: 0 auto clamp(22px, 3vh, 30px);
+
+/* Decorative concentric rings. Zero-height flow anchor sits directly above the
+   kicker, so the rings track the copy instead of a hard-coded offset. */
+.fundhead__rings{ position:relative; height:0; z-index:0; pointer-events:none }
+.fundhead__ring{
+  position:absolute; left:50%; top:10px;
+  transform: translate(-50%,-50%);
+  width:120px; height:120px;
+  border:1px solid rgba(206,14,45,0.28);
+  border-radius:50%;
 }
+.fundhead__ring--wide{
+  width:190px; height:190px;
+  border-color: rgba(0,53,148,0.14);
+}
+
 .fundhead__kicker{
+  position:relative; z-index:1;
   font-family: var(--display);
   font-weight: 600;
   letter-spacing: .3em;
@@ -2356,7 +2378,14 @@ body::before{
   text-transform: uppercase;
   color: var(--red);
 }
+.fundhead__kicker::before,
+.fundhead__kicker::after{
+  content:"\2014";
+  margin: 0 .6em;
+  color: var(--rule);
+}
 .fundhead__title{
+  position:relative; z-index:1;
   font-family: var(--serif);
   font-weight: 900;
   font-size: clamp(44px, 6.4vw, 88px);
@@ -2366,6 +2395,7 @@ body::before{
   margin: 18px 0 22px;
 }
 .fundhead__lede{
+  position:relative; z-index:1;
   font-family: var(--serif);
   font-style: italic;
   font-weight: 700;
@@ -2375,6 +2405,13 @@ body::before{
   max-width: 660px;
   margin: 0 auto;
   text-wrap: pretty;
+}
+
+@media (max-width: 680px){
+  .fundhead__ring{ width:84px; height:84px; border-color: rgba(206,14,45,0.18) }
+  .fundhead__ring--wide{ width:128px; height:128px; border-color: rgba(0,53,148,0.10) }
+  .fundhead__kicker::before,
+  .fundhead__kicker::after{ margin: 0 .35em }
 }
 
 .fund{ position:relative; z-index:2 }
@@ -2487,6 +2524,108 @@ body::before{
   margin: 0 0 22px;
   max-width: 720px;
 }
+
+/* Split feature: visual panel + info column (e.g. Power Card Fundraiser) */
+.fund-card--split{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+}
+.fund-card__visual{
+  background:
+    repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 2px, transparent 2px 22px),
+    linear-gradient(160deg, var(--navy-ink) 0%, var(--navy-deep) 55%, var(--navy) 130%);
+  color: var(--cream);
+  padding: clamp(24px, 3vw, 32px) clamp(24px, 3vw, 32px) 0;
+  display:flex; flex-direction:column;
+  position:relative;
+  overflow:hidden;
+  min-height: 320px;
+}
+.fund-card__visual-top{
+  display:flex; align-items:flex-start; justify-content:space-between;
+  gap:16px;
+}
+.fund-card__visual-label{
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: .2em;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  line-height: 1.5;
+  max-width: 130px;
+  padding-top: 6px;
+}
+.fund-card__badge{
+  width: 78px; height: 78px;
+  flex-shrink: 0;
+}
+.fund-card__badge-img{ width:100%; height:100%; display:block }
+.fund-card__amount{
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: clamp(40px, 5vw, 50px);
+  line-height: 1;
+  color: #fff;
+  margin-top: 20px;
+  position:relative; z-index:2;
+}
+.fund-card__amount-caption{
+  display:block;
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: .14em;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin-top: 10px;
+  position:relative; z-index:2;
+}
+/* Fixed, cropped reveal zone: the cards are taller than we want the panel
+   to grow for, so only their top edge peeks in and the rest is clipped by
+   the panel's own overflow:hidden — keeps the card height driven by the
+   copy column, not by the artwork. */
+.fund-card__cards{
+  margin-top: auto;
+  height: 168px;
+  overflow: hidden;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+}
+.fund-card__cards-img{
+  width: 210px;
+  max-width: 68%;
+  transform: rotate(-7deg);
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,.35));
+}
+
+.fund-card__how{
+  list-style:none;
+  margin: 0 0 26px;
+  padding: 0;
+  display:flex; flex-direction:column; gap:14px;
+}
+.fund-card__how-step{
+  display:flex; align-items:flex-start; gap:14px;
+}
+.fund-card__how-num{
+  flex-shrink:0;
+  width:26px; height:26px;
+  border-radius:50%;
+  background: var(--gold-soft);
+  color: var(--navy-ink);
+  font-family: var(--display);
+  font-weight:700;
+  font-size:12px;
+  display:flex; align-items:center; justify-content:center;
+}
+.fund-card__how-text{
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.fund-card__how-text strong{ color: var(--navy-ink) }
 
 /* Detail pills */
 .fund-tags{ display:flex; flex-wrap:wrap; gap:9px; margin:0; padding:0 }
@@ -2646,6 +2785,27 @@ body::before{
     padding: 18px;
   }
   .fund-card__rail-value{ font-size: 28px }
+  .fund-card--split{ grid-template-columns: 1fr }
+  .fund-card__visual{ min-height: 300px }
+  /* Guaranteed clearance above the corner card graphic, so it can never
+     paint over the label/badge row even if the copy column is short. */
+  .fund-card__visual-top{ position:relative; z-index:3 }
+  .fund-card__amount{ position:relative; z-index:2; max-width: 62% }
+  .fund-card__cards{
+    position:absolute;
+    bottom:-16px; right:-16px;
+    margin-top:0;
+    height:180px;
+    width:180px;
+    justify-content:flex-end;
+    align-items:flex-end;
+    z-index:1;
+  }
+  .fund-card__cards-img{
+    width: 210px;
+    max-width: none;
+    transform: rotate(-11deg);
+  }
   .fund-btn{ display:block; text-align:center }
   .fund-btn__aside{ display:block; margin: 12px 0 0 }
   .fund-closer{ display:block }
