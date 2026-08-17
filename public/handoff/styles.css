@@ -2576,6 +2576,7 @@ body::before{
   font-weight: 500;
   letter-spacing: .14em;
   font-size: 11.5px;
+  line-height: 1.6;
   text-transform: uppercase;
   color: var(--cream);
   margin-top: 10px;
@@ -2786,11 +2787,12 @@ body::before{
   }
   .fund-card__rail-value{ font-size: 28px }
   .fund-card--split{ grid-template-columns: 1fr }
+  .fund-card__text{ text-align: justify }
   .fund-card__visual{ min-height: 440px }
   /* Guaranteed clearance above the corner card graphic, so it can never
      paint over the label/badge row even if the copy column is short. */
   .fund-card__visual-top{ position:relative; z-index:3 }
-  .fund-card__amount{ position:relative; z-index:2; max-width: 62% }
+  .fund-card__amount{ position:relative; z-index:2 }
   .fund-card__cards{
     position:absolute;
     bottom:16px; right:16px;
