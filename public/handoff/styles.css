@@ -2513,8 +2513,6 @@ body::before{
   line-height: 1.7;
   color: var(--ink-2);
   margin: 0 0 26px;
-  max-width: 720px;
-  text-wrap: pretty;
 }
 .fund-card__note{
   font-size: 15px;
