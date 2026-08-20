@@ -11,6 +11,23 @@
     });
   }
 
+  /* --- Mobile nav toggle --- */
+  const navToggle = document.getElementById('topnavToggle');
+  const navLinks = document.getElementById('topnavLinks');
+  if (navToggle && navLinks) {
+    const closeMenu = () => {
+      navLinks.classList.remove('is-open');
+      navToggle.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    };
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('is-open');
+      navToggle.classList.toggle('is-open', isOpen);
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  }
+
   /* --- Top nav scroll state --- */
   /* Looked up per call, not cached: client-side route changes swap in a new
      #topnav node, and a cached reference would leave the new nav transparent

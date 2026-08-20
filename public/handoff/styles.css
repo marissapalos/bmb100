@@ -122,6 +122,29 @@ body::before{
 }
 .topnav__cta:hover{ background: var(--red-deep) }
 
+.topnav__toggle{
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+.topnav__toggle-bar{
+  display:block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.topnav__toggle.is-open .topnav__toggle-bar:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+.topnav__toggle.is-open .topnav__toggle-bar:nth-child(2){ opacity: 0; }
+.topnav__toggle.is-open .topnav__toggle-bar:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
 .evt-title--long{
   font-size: clamp(21px, 2vw, 27px);
 }
@@ -160,18 +183,46 @@ body::before{
   .topnav__years{
     display: none;
   }
-  .topnav__links{
-    gap: 10px;
+  .topnav__toggle{
+    display: flex;
     flex-shrink: 0;
   }
-  .topnav__links a:not(.topnav__cta){
-    display: none;
+  .topnav__links{
+    position: absolute;
+    top: 100%;
+    right: clamp(14px, 4vw, 24px);
+    left: clamp(14px, 4vw, 24px);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: rgba(244,235,216,0.98);
+    border: 1px solid rgba(184,168,135,0.55);
+    border-radius: 4px;
+    box-shadow: 0 12px 24px rgba(6,18,50,0.18);
+    padding: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
   }
+  .topnav__links.is-open{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .topnav__links a{
+    color: var(--ink);
+    opacity: 1;
+    padding: 12px 10px;
+    border-radius: 3px;
+  }
+  .topnav__links a:not(.topnav__cta):hover{ background: rgba(184,168,135,0.18); }
   .topnav__cta{
-    padding: 8px 12px;
-    font-size: 11px;
+    margin-top: 4px;
+    text-align: center;
+    padding: 12px 10px;
+    font-size: 12px;
     letter-spacing: .08em;
-    white-space: nowrap;
   }
 }
 
