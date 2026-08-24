@@ -2705,6 +2705,18 @@ body::before{
   transition: background .25s ease, color .25s ease;
 }
 .fund-btn:hover{ background: var(--red-deep) }
+.evt-register-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  padding:14px 20px;
+  margin-top:16px;
+  border-radius:6px;
+  box-shadow:0 3px 8px rgba(161,28,43,.35);
+}
+.evt-register-btn::after{ content:"\2192" }
 .fund-btn--ghost{
   background: transparent;
   color: var(--navy-ink);
