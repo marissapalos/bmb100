@@ -143,3 +143,88 @@
     });
   }
 })();
+
+/* BMB Centennial — FAQ page (/faq) search, filter & accordion.
+   Kept in a separate IIFE with document-level delegation so it survives
+   client-side route changes and stays inert on every other page. */
+(function(){
+  'use strict';
+
+  const root = () => document.getElementById('faqp');
+
+  const norm = s => s.replace(/\s+/g, ' ').trim().toLowerCase();
+
+  /* Applies the current query + category to every question, then updates the
+     result count and empty state. */
+  function apply(el, fromSearch){
+    const q = norm(el.querySelector('#faqpSearch').value);
+    const cat = (el.querySelector('.faqp-chip.is-active') || {}).dataset?.faqCat || 'all';
+    let count = 0;
+
+    el.querySelectorAll('.faqp-group').forEach(group => {
+      const inCat = cat === 'all' || group.dataset.faqGroup === cat;
+      let shown = 0;
+
+      group.querySelectorAll('.faqp-item').forEach(item => {
+        const hit = inCat && (!q || norm(item.textContent).includes(q));
+        item.hidden = !hit;
+        if (hit) {
+          shown++;
+          // A multi-character search auto-expands matches so the answer is visible;
+          // clearing the search collapses them back down. Filtering by category
+          // leaves whatever the reader already opened alone.
+          if (fromSearch) item.open = q.length > 1;
+        }
+      });
+
+      group.hidden = shown === 0;
+      count += shown;
+    });
+
+    el.querySelector('#faqpClear').hidden = q.length === 0;
+    el.querySelector('#faqpEmpty').hidden = count !== 0;
+    el.querySelector('#faqpCount').textContent = q
+      ? count + (count === 1 ? ' answer matches ' : ' answers match ') + '\u201C' + el.querySelector('#faqpSearch').value.trim() + '\u201D'
+      : count + ' questions answered \u00B7 tap any question to expand';
+  }
+
+  document.addEventListener('input', (e) => {
+    if (e.target.id !== 'faqpSearch') return;
+    const el = root();
+    if (el) apply(el, true);
+  });
+
+  document.addEventListener('click', (e) => {
+    const el = root();
+    if (!el) return;
+
+    const chip = e.target.closest('.faqp-chip');
+    if (chip && el.contains(chip)) {
+      el.querySelectorAll('.faqp-chip').forEach(c => c.classList.remove('is-active'));
+      chip.classList.add('is-active');
+      apply(el);
+      return;
+    }
+
+    if (e.target.closest('#faqpClear')) {
+      el.querySelector('#faqpSearch').value = '';
+      apply(el, true);
+    }
+  });
+
+  /* One answer open at a time. */
+  document.addEventListener('toggle', (e) => {
+    const item = e.target;
+    if (!item.classList || !item.classList.contains('faqp-item') || !item.open) return;
+    const el = root();
+    if (!el || !el.contains(item)) return;
+    // While an active search has expanded every match, leave them all open.
+    if (norm(el.querySelector('#faqpSearch').value).length > 1) return;
+    el.querySelectorAll('.faqp-item[open]').forEach(other => {
+      if (other !== item) other.open = false;
+    });
+  }, true);
+
+  const el = root();
+  if (el) apply(el);
+})();
