@@ -2913,7 +2913,7 @@ body::before{
   line-height: 1.65;
   color: rgba(244,235,216,0.85);
   max-width: 620px;
-  margin: 0 auto;
+  margin: 24px auto 0;
   text-wrap: pretty;
 }
 
@@ -3167,4 +3167,16 @@ body::before{
   .faqp-item__body{ padding: 0 18px 18px }
   .faqp-cta__actions{ width: 100% }
   .faqp-cta__actions .fund-btn{ display: block }
+
+  /* Category chips: single-row horizontal scroll instead of wrapping */
+  .faqp__chips{
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent 100%);
+  }
+  .faqp__chips::-webkit-scrollbar{ display: none }
+  .faqp__chips .faqp-chip{ flex: 0 0 auto; white-space: nowrap }
 }

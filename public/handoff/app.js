@@ -154,6 +154,10 @@
 
   const norm = s => s.replace(/\s+/g, ' ').trim().toLowerCase();
 
+  const PLACEHOLDER_FULL = "Search the FAQs — parking, deadline, instrument…";
+  const PLACEHOLDER_SHORT = "Search FAQs — try 'parking'";
+  const mobileQuery = window.matchMedia('(max-width: 640px)');
+
   /* Applies the current query + category to every question, then updates the
      result count and empty state. */
   function apply(el, fromSearch){
@@ -185,7 +189,9 @@
     el.querySelector('#faqpEmpty').hidden = count !== 0;
     el.querySelector('#faqpCount').textContent = q
       ? count + (count === 1 ? ' answer matches ' : ' answers match ') + '\u201C' + el.querySelector('#faqpSearch').value.trim() + '\u201D'
-      : count + ' questions answered \u00B7 tap any question to expand';
+      : mobileQuery.matches
+        ? "Pick a category to find your answer faster"
+        : count + ' questions answered \u00B7 tap any question to expand';
   }
 
   document.addEventListener('input', (e) => {
@@ -225,6 +231,25 @@
     });
   }, true);
 
+  /* Placeholder is too long to fit on mobile without truncating; swap it
+     for a shorter version below the site's mobile breakpoint. */
+  function updatePlaceholder(el) {
+    const input = el.querySelector('#faqpSearch');
+    if (input) input.placeholder = mobileQuery.matches ? PLACEHOLDER_SHORT : PLACEHOLDER_FULL;
+  }
+
+  /* Crossing the breakpoint also flips the placeholder and (when there's no
+     active search) the result-count message, so re-run both. */
+  mobileQuery.addEventListener('change', () => {
+    const el = root();
+    if (!el) return;
+    updatePlaceholder(el);
+    apply(el);
+  });
+
   const el = root();
-  if (el) apply(el);
+  if (el) {
+    apply(el);
+    updatePlaceholder(el);
+  }
 })();
