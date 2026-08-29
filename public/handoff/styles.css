@@ -1677,8 +1677,27 @@ body::before{
   color: var(--red-deep);
   white-space: nowrap;
 }
-/* Hide chapter headers when a filter is active */
-.gallery.is-filtered .m-chapter{ display: none }
+/* Per-decade photo count + hint, injected under each chapter header */
+.m-chapter-meta{
+  column-span: all;
+  -webkit-column-span: all;
+  break-inside: avoid;
+  text-align: center;
+  font-family: var(--display);
+  letter-spacing: .2em;
+  font-size: 10px;
+  color: var(--ink-mute);
+  margin: -6px 0 18px;
+}
+/* Hide chapter headers (and their meta line) when a filter is active */
+.gallery.is-filtered .m-chapter,
+.gallery.is-filtered .m-chapter-meta{ display: none }
+
+/* Hide empty decade sections entirely (header + rules + hint line).
+   Needs [hidden] here because .m-chapter's own `display: flex` above
+   otherwise ties with the UA [hidden] rule and wins on source order. */
+.m-chapter[hidden],
+.m-chapter-meta[hidden]{ display: none }
 
 /* ============================================================
    GALLERY — sparse-decade callout (inline in grid)
@@ -1748,7 +1767,9 @@ body::before{
   grid-template-columns: 1.6fr 1fr;
   gap: clamp(20px, 3vw, 40px);
   align-items: stretch;
+  transition: transform .22s ease;
 }
+.lb__panel.is-dragging{ transition: none }
 @media (max-width: 880px){
   .lb__panel{ grid-template-columns: 1fr; max-width: 600px }
 }
@@ -1759,6 +1780,7 @@ body::before{
   border: 8px solid #fff;
   box-shadow: 0 30px 50px -20px rgba(0,0,0,.6);
   min-height: 280px;
+  touch-action: pan-y;
 }
 .lb__photo img{
   width: 100%;
@@ -2895,6 +2917,17 @@ body::before{
   pointer-events: none;
 }
 .pagehead--faq .pagehead__title em{
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1em;
+  color: #e0b84a;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: initial;
+}
+.pagehead--gallery .pagehead__title em{
   font-family: 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-weight: 700;
