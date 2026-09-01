@@ -2740,6 +2740,8 @@ body::before{
   box-shadow:0 3px 8px rgba(161,28,43,.35);
 }
 .evt-register-btn::after{ content:"\2192" }
+.evt-register-btn.fund-btn--soon{ box-shadow:none }
+.evt-register-btn.fund-btn--soon::after{ content:none }
 .fund-btn--ghost{
   background: transparent;
   color: var(--navy-ink);
