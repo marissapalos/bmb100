@@ -2424,7 +2424,7 @@ body::before{
      transparent well before the bottom edge (no seam with .fund).
      Bleed off the left/right/top edges is fine. */
   background:
-    radial-gradient(60% 85% at 12% 8%, rgba(206,14,45,0.10) 0, transparent 100%),
+    radial-gradient(60% 85% at 12% 8%, rgba(206,14,45,0.24) 0, transparent 100%),
     radial-gradient(55% 80% at 88% 55%, rgba(0,53,148,0.08) 0, transparent 100%);
 }
 
@@ -2896,6 +2896,50 @@ body::before{
   .fund-btn__aside{ display:block; margin: 12px 0 0 }
   .fund-closer{ display:block }
   .fund-closer .fund-btn--ghost{ margin-top: 24px }
+}
+
+/* --- Closing CTA band (mirrors .faqp-cta on the FAQ page) --- */
+.fund-cta{
+  max-width: 1040px;
+  margin: clamp(56px, 7vw, 78px) auto clamp(72px, 9vw, 110px);
+  background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy-ink) 100%);
+  color: var(--cream);
+  padding: clamp(36px, 5vw, 52px) clamp(24px, 5vw, 64px);
+  display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: space-between;
+  gap: 32px;
+}
+.fund-cta__copy{ min-width: 260px; flex: 1 1 340px }
+.fund-cta__label{
+  font-family: var(--display);
+  letter-spacing: .3em; text-transform: uppercase;
+  font-size: 11px;
+  color: var(--gold-soft);
+  margin-bottom: 14px;
+}
+.fund-cta__title{
+  margin: 0 0 12px;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(26px, 4vw, 40px);
+  line-height: 1.1;
+}
+.fund-cta__copy p{
+  margin: 0;
+  max-width: 460px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(244,235,216,0.78);
+}
+.fund-cta__actions{
+  display: flex; flex-direction: column; gap: 14px;
+  flex: 0 0 auto;
+}
+.fund-cta__actions .fund-btn{ text-align: center }
+
+@media (max-width: 640px){
+  .fund-cta__actions{ width: 100% }
+  .fund-cta__actions .fund-btn{ display: block }
 }
 
 /* ============================================================
