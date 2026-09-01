@@ -3066,6 +3066,21 @@ body::before{
 .faqp-group__rule{ flex: 1; height: 1px; background: var(--rule) }
 .faqp-group__list{ display: flex; flex-direction: column; gap: 10px }
 
+/* --- Nested sub-topic group (e.g. the four BMB Through the Years sub-sections) --- */
+.faqp-nest{
+  margin-left: 28px;
+  padding-left: 24px;
+  border-left: 2px solid var(--gold-soft);
+}
+.faqp-group--nested .faqp-group__mark{
+  width: 35px; height: 35px;
+  font-size: 15px;
+}
+.faqp-group--nested .faqp-group__title{
+  font-size: clamp(19px, 2.6vw, 25px);
+  font-weight: 600;
+}
+
 /* --- Question card --- */
 .faqp-item{
   background: var(--paper);
@@ -3198,6 +3213,12 @@ body::before{
   .faqp-group__rule{ display: none }
   .faqp-item > summary{ font-size: 17px; padding: 18px }
   .faqp-item__body{ padding: 0 18px 18px }
+
+  .faqp-nest{
+    margin-left: 14px;
+    padding-left: 14px;
+    border-left-width: 1px;
+  }
   .faqp-cta__actions{ width: 100% }
   .faqp-cta__actions .fund-btn{ display: block }
 
