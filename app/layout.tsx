@@ -22,7 +22,7 @@ export default function RootLayout({
         {/* TODO v2: migrate to next/font/google + global CSS import. Linked here verbatim to match the Claude Design handoff exactly. */}
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display:ital,wght@0,500;0,700;0,800;0,900;1,700;1,800&family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&family=Special+Elite&family=Noto+Music&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display:ital,wght@0,500;0,700;0,800;0,900;1,700;1,800&family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&family=Special+Elite&family=Courier+Prime&family=Noto+Music&display=swap"
           rel="stylesheet"
         />
         {/* eslint-disable-next-line @next/next/no-css-tags */}
